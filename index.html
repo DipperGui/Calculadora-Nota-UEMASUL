@@ -27,6 +27,7 @@
   --t-mod:#9A1FFF;  --t-mod-ink:#7410C9;  --t-mod-soft:rgba(154,31,255,.12);  --t-mod-glow:rgba(154,31,255,.26);
   --t-sim:#FF8A1F;  --t-sim-ink:#A84B00;  --t-sim-soft:rgba(255,138,31,.16);  --t-sim-glow:rgba(255,138,31,.30);
   --t-evo:#0FBF38;  --t-evo-ink:#08802A;  --t-evo-soft:rgba(15,191,56,.14);   --t-evo-glow:rgba(15,191,56,.26);
+  --t-evt:#0A8F9C; --t-evt-ink:#066A75; --t-evt-soft:rgba(10,143,156,.14); --t-evt-glow:rgba(10,143,156,.28);
   --accent:var(--t-home); --accent-ink:var(--t-home-ink); --accent-soft:var(--t-home-soft); --glow:var(--t-home-glow);
   --crown:#F5B800; --on-accent:#FFFFFF;
   --display:'Big Shoulders Display','Arial Narrow',Impact,sans-serif;
@@ -45,6 +46,7 @@
     --t-mod:#C25BFF;  --t-mod-ink:#DDA0FF;  --t-mod-soft:rgba(194,91,255,.18);  --t-mod-glow:rgba(194,91,255,.34);
     --t-sim:#FF8A1F;  --t-sim-ink:#FFB066;  --t-sim-soft:rgba(255,138,31,.18);  --t-sim-glow:rgba(255,138,31,.34);
     --t-evo:#39FF14;  --t-evo-ink:#6BFF4F;  --t-evo-soft:rgba(57,255,20,.14);   --t-evo-glow:rgba(57,255,20,.28);
+    --t-evt:#2EE6E0; --t-evt-ink:#8FF3EF; --t-evt-soft:rgba(46,230,224,.16); --t-evt-glow:rgba(46,230,224,.30);
     --on-accent:#0A1017; color-scheme:dark;
   }
 }
@@ -59,14 +61,15 @@
   --t-mod:#C25BFF;  --t-mod-ink:#DDA0FF;  --t-mod-soft:rgba(194,91,255,.18);  --t-mod-glow:rgba(194,91,255,.34);
   --t-sim:#FF8A1F;  --t-sim-ink:#FFB066;  --t-sim-soft:rgba(255,138,31,.18);  --t-sim-glow:rgba(255,138,31,.34);
   --t-evo:#39FF14;  --t-evo-ink:#6BFF4F;  --t-evo-soft:rgba(57,255,20,.14);   --t-evo-glow:rgba(57,255,20,.28);
+    --t-evt:#2EE6E0; --t-evt-ink:#8FF3EF; --t-evt-soft:rgba(46,230,224,.16); --t-evt-glow:rgba(46,230,224,.30);
   --on-accent:#0A1017; color-scheme:dark;
 }
 html{background:var(--bg)}
-body{padding-top:calc(10px + env(safe-area-inset-top,0px))}
 body[data-tab="home"]{--accent:var(--t-home);--accent-ink:var(--t-home-ink);--accent-soft:var(--t-home-soft);--glow:var(--t-home-glow)}
 body[data-tab="mod"]{--accent:var(--t-mod);--accent-ink:var(--t-mod-ink);--accent-soft:var(--t-mod-soft);--glow:var(--t-mod-glow)}
 body[data-tab="sim"]{--accent:var(--t-sim);--accent-ink:var(--t-sim-ink);--accent-soft:var(--t-sim-soft);--glow:var(--t-sim-glow)}
 body[data-tab="evo"]{--accent:var(--t-evo);--accent-ink:var(--t-evo-ink);--accent-soft:var(--t-evo-soft);--glow:var(--t-evo-glow)}
+body[data-tab="evt"]{--accent:var(--t-evt);--accent-ink:var(--t-evt-ink);--accent-soft:var(--t-evt-soft);--glow:var(--t-evt-glow)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{
   margin:0; background:transparent; color:var(--ink); font:500 15px/1.4 var(--text);
@@ -84,7 +87,7 @@ body::before{
 button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer}
 :focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
-.app{max-width:520px;margin-inline:auto;display:flex;flex-direction:column;gap:14px;padding-bottom:128px}
+.app{max-width:520px;margin-inline:auto;display:flex;flex-direction:column;gap:14px;padding-bottom:108px}
 .num-font,.big{font-family:var(--display);text-transform:uppercase;letter-spacing:.01em}
 .tn{font-variant-numeric:tabular-nums}
 h1,h2,h3,p{margin:0}
@@ -188,21 +191,79 @@ body[data-tab="evo"] .btn.pri,body[data-tab="sim"] .btn.pri{color:#101A26}
 
 /* navegação */
 .nav{position:fixed;left:max(16px,env(safe-area-inset-left,0px));right:max(16px,env(safe-area-inset-right,0px));
-  bottom:calc(10px + env(safe-area-inset-bottom,0px));max-width:440px;margin-inline:auto;z-index:20;
-  display:flex;gap:4px;padding:6px;border-radius:999px;border:1px solid var(--line);
+  bottom:max(8px,calc(env(safe-area-inset-bottom,0px) - 12px));max-width:440px;margin-inline:auto;z-index:20;
+  display:flex;gap:2px;padding:5px;border-radius:999px;border:1px solid var(--line);
   background:color-mix(in srgb,var(--surface) 82%,transparent);-webkit-backdrop-filter:blur(16px) saturate(1.4);backdrop-filter:blur(16px) saturate(1.4);
   box-shadow:0 10px 30px -10px rgba(0,0,0,.35)}
-.tab{flex:1;min-height:54px;border:0;background:none;border-radius:999px;display:grid;place-items:center;align-content:center;gap:2px;font:600 11px/1 var(--text);color:var(--muted);padding:4px 2px}
-.tab svg{width:22px;height:22px}
+.tab{flex:1;min-width:0;min-height:50px;border:0;background:none;border-radius:999px;display:grid;place-items:center;align-content:center;gap:2px;font:600 11px/1 var(--text);color:var(--muted);padding:4px 2px}
+.tab svg{width:21px;height:21px}
 .tab[aria-selected="true"]{background:var(--cs);color:var(--ci)}
 .tab[data-t="home"]{--cs:var(--t-home-soft);--ci:var(--t-home-ink)}
 .tab[data-t="mod"]{--cs:var(--t-mod-soft);--ci:var(--t-mod-ink)}
 .tab[data-t="sim"]{--cs:var(--t-sim-soft);--ci:var(--t-sim-ink)}
 .tab[data-t="evo"]{--cs:var(--t-evo-soft);--ci:var(--t-evo-ink)}
+.tab[data-t="evt"]{--cs:var(--t-evt-soft);--ci:var(--t-evt-ink)}
 .fab{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(86px + env(safe-area-inset-bottom,0px));z-index:19;
   width:52px;height:52px;border-radius:50%;border:1px solid var(--accent);background:var(--surface);color:var(--accent-ink);display:grid;place-items:center;
   box-shadow:0 8px 22px -6px var(--glow)}
 .fab svg{width:24px;height:24px}
+
+
+/* simulador e evolução */
+.rowscroll{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;margin-inline:-16px;padding:2px 16px}
+.rowscroll::-webkit-scrollbar{display:none}
+.rowscroll>*{flex:none;scroll-snap-align:start;white-space:nowrap}
+.snum{width:64px;height:44px;text-align:center;font:600 17px var(--text);font-variant-numeric:tabular-nums;border-radius:14px;border:1px solid var(--line);background:var(--surface);padding:0 4px}
+.need-big{font:800 72px/.9 var(--display);letter-spacing:.01em}
+.irow{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:48px;width:100%;text-align:left;background:none;border:0;border-top:1px solid var(--line);padding:6px 0}
+.irow:first-of-type{border-top:0}
+.irow .iv{display:flex;align-items:center;gap:8px;flex:none}
+.irow .iv b{font:800 22px/1 var(--display)}
+.chart{width:100%;height:auto;display:block;overflow:visible}
+.chart text{font-variant-numeric:tabular-nums}
+.sv-n{fill:var(--ink);font:600 13px var(--text)}
+.sv-m{fill:var(--muted);font:500 11px var(--text)}
+.sv-v{font:800 18px var(--display)}
+.sv-pt{font:700 12px var(--text)}
+.sv-ok{fill:var(--ok-ink)} .sv-risk{fill:var(--warn-ink)} .sv-bad{fill:var(--bad-ink)} .sv-track2{fill:var(--muted)}
+.sv-track{fill:var(--surface2)} .sv-pot{fill:var(--line)} .sv-tut{fill:var(--t-home)} .sv-lmf{fill:var(--t-mod)}
+.sv-grid{stroke:var(--line);stroke-width:1;fill:none} .sv-min{stroke:var(--ink);stroke-width:1.5;stroke-dasharray:4 4;fill:none}
+.sv-ltut{stroke:var(--t-home);stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.sv-llmf{stroke:var(--t-mod);stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.sv-dtut{fill:var(--t-home);stroke:var(--surface);stroke-width:2} .sv-dlmf{fill:var(--t-mod);stroke:var(--surface);stroke-width:2}
+.sv-crown{fill:var(--crown)}
+.t-tut{fill:var(--t-home-ink);font:700 12px var(--text)} .t-lmf{fill:var(--t-mod-ink);font:700 12px var(--text)}
+.lg{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--muted)}
+.lg i{width:10px;height:10px;border-radius:50%;display:inline-block}
+.lg i.sq{border-radius:3px}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tile{background:var(--surface2);border-radius:16px;padding:12px;display:grid;gap:4px;min-width:0}
+.tile b{font:800 28px/1 var(--display)}
+
+
+/* perfil e dados */
+.grab{width:40px;height:5px;border-radius:999px;background:var(--line);margin:-6px auto 0}
+.sh-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.x-btn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--surface2);display:grid;place-items:center;padding:0;color:var(--ink)}
+.x-btn svg{width:20px;height:20px}
+.prof{display:flex;align-items:flex-end;gap:14px}
+.avatar-lg{width:64px;height:64px;flex:none;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--t-home),var(--t-mod));color:#fff;font:800 32px/1 var(--display);text-transform:uppercase}
+.psec{display:grid;gap:8px}
+.psec>.label{padding-inline:4px}
+.group{background:var(--surface2);border-radius:18px;padding:4px 14px;display:grid}
+.grow{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px;border-top:1px solid var(--line);font-weight:600}
+.grow:first-child{border-top:0}
+.segc{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--surface2);padding:4px;border-radius:999px}
+.segc button{min-height:44px;border:0;border-radius:999px;background:none;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px;color:var(--muted)}
+.segc button svg{width:18px;height:18px}
+.segc button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 2px 8px -2px rgba(0,0,0,.3)}
+.rowbtn{display:flex;align-items:center;gap:12px;width:100%;min-height:56px;background:none;border:0;border-top:1px solid var(--line);padding:6px 0;text-align:left}
+.rowbtn:first-child{border-top:0}
+.rowbtn .ri{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent-ink);flex:none}
+.rowbtn .ri svg{width:20px;height:20px}
+.rowbtn .rt{display:grid;gap:2px;min-width:0}
+.rowbtn .rt b{font-weight:600}
+.rowbtn .rt small{color:var(--muted);font-size:12.5px}
 
 /* modal */
 .scrim{position:fixed;inset:0;z-index:40;background:rgba(5,10,16,.55);display:flex;align-items:flex-end;justify-content:center}
@@ -215,13 +276,13 @@ body[data-tab="evo"] .btn.pri,body[data-tab="sim"] .btn.pri{color:#101A26}
 .inp{width:100%;min-height:48px;border:1px solid var(--line);border-radius:14px;background:var(--surface2);padding:0 12px;font-size:16px}
 textarea.inp{padding:10px 12px;min-height:110px;font-size:16px}
 .seg{display:flex;gap:6px;flex-wrap:wrap}
-.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(150px + env(safe-area-inset-bottom,0px));z-index:50;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:999px;font-weight:600;max-width:90vw;text-align:center}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(110px + env(safe-area-inset-bottom,0px));z-index:50;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:999px;font-weight:600;max-width:90vw;text-align:center}
 @media (min-width:700px){.scrim{align-items:center}.sheet{border-radius:24px;border-bottom:1px solid var(--line)}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+body{padding-top:calc(10px + env(safe-area-inset-top,0px))}
 </style>
 </head>
 <body>
-
 
 <div class="app" id="app"></div>
 <nav class="nav" id="nav" role="tablist" aria-label="Seções"></nav>
@@ -237,10 +298,28 @@ var MIN=7;
 var MOD_NAMES=['Introdução à Medicina','Processos Biológicos','Metabolismo'];
 
 function uid(){return 'i'+Math.random().toString(36).slice(2,9)}
-function newModule(name){return{id:uid(),name:name,tut:{prova:null,form:[null,null,null,null]},lmf:{prova:null,form:[null,null,null,null]}}}
+function blanks(n){var a=[];for(var i=0;i<n;i++)a.push(null);return a}
+function newModule(name,nTut,nLmf){return{id:uid(),name:name,ch:1,tut:{prova:null,form:blanks(nTut||4)},lmf:{prova:null,form:blanks(nLmf||4)}}}
+function chOf(m){var v=parseFloat(m.ch);return v>0?v:1}
+function migrate(st){
+  if(!st||!st.periods)return st;
+  if((st.mig||0)<2){
+    st.periods.forEach(function(p){p.modules.forEach(function(m){
+      if(String(m.name).trim().toLowerCase()==='metabolismo'&&m.tut&&m.tut.form.length===4&&m.tut.form[3]==null)m.tut.form.pop();
+    })});
+    st.mig=2;
+  }
+  if((st.mig||0)<3){
+    st.periods.forEach(function(p){p.modules.forEach(function(m){
+      if(String(m.name).trim().toLowerCase()==='metabolismo'&&m.lmf&&m.lmf.form.length===4&&m.lmf.form[3]==null)m.lmf.form.pop();
+    })});
+    st.mig=3;
+  }
+  return st;
+}
 function defaultState(){
-  var p={id:uid(),name:'1º período',modules:MOD_NAMES.map(newModule)};
-  return{v:1,t:0,name:'Guilherme',periods:[p],cur:0,currentId:p.id,exams:[]};
+  var p={id:uid(),name:'1º período',modules:MOD_NAMES.map(function(n,i){return newModule(n,i===2?3:4,i===2?3:4)})};
+  return{v:1,mig:3,t:0,name:'Guilherme',periods:[p],cur:0,currentId:p.id,exams:[]};
 }
 function pad(n){return String(n).length<2?'0'+n:String(n)}
 function round2(x){return Math.round(x*100)/100}
@@ -312,6 +391,7 @@ var store={
 /* ---------- estado ---------- */
 var S=store.readLocal();
 if(!S||!S.periods||!S.periods.length)S=defaultState();
+var _mig=S.mig;S=migrate(S);if(_mig!==S.mig)store.writeLocal(S);
 var UI={tab:'home',edit:false,open:{},toast:'',lastFocus:null};
 var TAB_COLOR={home:'home',mod:'mod',sim:'sim',evo:'evo'};
 
@@ -337,9 +417,10 @@ var IC={
  evo:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18"/><path d="M5 15l4-4 3 3 6-7"/></svg>',
  cal:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18M12 13v5M9.5 15.5h5"/></svg>',
  chev:'<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>',
+ evt:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/><path d="M12 12.6l1.1 2.2 2.4.35-1.75 1.7.42 2.4L12 18.1l-2.17 1.15.42-2.4-1.75-1.7 2.4-.35z" fill="currentColor" stroke="none"/></svg>',
  leaf:'<svg viewBox="0 0 24 24" fill="none"><path d="M4 20C4 11 9 5 20 4c0 11-6 16-14 16z" fill="#0FBF38"/><path d="M5 19c4-4 7-7 11-11" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>'
 };
-var TABS=[['home','Início'],['mod','Módulos'],['sim','Simulador'],['evo','Evolução']];
+var TABS=[['home','Início'],['mod','Módulos'],['sim','Simulador'],['evo','Evolução'],['evt','Eventos']];
 
 /* ---------- campos numéricos ---------- */
 function getRef(path){
@@ -432,13 +513,14 @@ function viewHome(){
 }
 function modCard(m){
   var c=calc(m),open=UI.open[m.id]!==false&&(UI.open[m.id]===true||true);
-  var isOpen=UI.open[m.id]===undefined?true:UI.open[m.id];
+  var isOpen=UI.open[m.id]===true;
   var cls=isOpen?'':' collapsed';
   var h='<section class="card'+cls+'" id="m-'+m.id+'" style="border-top-color:'+(c.status==='ok'?'var(--ok)':c.status==='bad'?'var(--bad)':c.status==='risk'?'var(--warn)':'var(--accent)')+'">';
   h+='<button class="mod-head" data-act="toggle" data-m="'+m.id+'" aria-expanded="'+isOpen+'" aria-label="Mostrar ou esconder '+esc(m.name)+'"><span class="nm"><b>'+esc(m.name)+'</b><span class="tag '+c.status+'" style="margin-top:6px">'+ST[c.status]+'</span></span>'+
     '<span style="text-align:right"><span class="big tn" style="font:800 34px/1 var(--display)">'+fmt(c.P,2)+'</span><br><span class="label">pontos</span></span>'+IC.chev+'</button>';
   h+='<div class="mod-body">';
   h+='<label class="edit-only field"><span>Nome do módulo</span><input class="ed-input" data-name="'+m.id+'" value="'+esc(m.name)+'"></label>';
+  h+='<label class="edit-only field"><span>Peso no CR (carga horária)</span><input class="ed-input" inputmode="decimal" autocomplete="off" data-ch="'+m.id+'" value="'+fmt(chOf(m))+'"></label>';
   h+='<div class="blk"><div class="blk-h"><h3>Tutoria</h3><span class="neon-lbl p tn">'+fmt(c.tP,2)+' / '+fmt(W.tp+W.tf)+'</span></div>'+groupFields(m,'tut','Tutoria',W.tp,W.tf)+'</div>';
   h+='<div class="blk"><div class="blk-h"><h3>LMF</h3><span class="neon-lbl p tn">'+fmt(c.lP,2)+' / '+fmt(W.lp+W.lf)+'</span></div>'+groupFields(m,'lmf','LMF',W.lp,W.lf)+'</div>';
   h+='<div class="res"><div><div class="label">Média parcial</div><div class="big-n tn">'+(c.parcial==null?'—':fmt(c.parcial,1))+'</div></div>'+
@@ -461,6 +543,195 @@ function viewMod(){
 function viewSoon(title,txt,icon){
   return '<div style="padding-top:6px"><h2>'+title+'</h2></div><section class="card stack"><div style="width:44px;height:44px;color:var(--accent-ink)">'+IC[icon].replace('<svg','<svg width="44" height="44"')+'</div><p><b>'+txt[0]+'</b></p><p class="note">'+txt[1]+'</p></section>';
 }
+
+/* ---------- simulador ---------- */
+UI.sim={mid:null,k:null,assume:null,x:null};
+UI.evoMod=null;
+function allItems(m){
+  var out=[];
+  function add(gk,gn,wp,wf){
+    var g=m[gk];
+    out.push({k:gk+'.prova',label:'Prova de '+gn,w:wp,v:g.prova});
+    g.form.forEach(function(v,i){out.push({k:gk+'.form.'+i,label:'Formativa '+(i+1)+' · '+gn,w:wf/g.form.length,v:v})});
+  }
+  add('tut','Tutoria',W.tp,W.tf);add('lmf','LMF',W.lp,W.lf);
+  return out;
+}
+function pickMod(id){var ms=curPeriod().modules;for(var i=0;i<ms.length;i++)if(ms[i].id===id)return ms[i];return ms[0]}
+function modChips(act,sel){
+  return '<div class="rowscroll" role="group" aria-label="Escolher módulo">'+curPeriod().modules.map(function(m){
+    return '<button class="chip'+(m.id===sel?' on':'')+'" data-act="'+act+'" data-m="'+m.id+'" aria-pressed="'+(m.id===sel)+'">'+esc(m.name)+'</button>';
+  }).join('')+'</div>';
+}
+function simField(label,hint,f,val){
+  return '<div class="fld"><div class="fl"><b>'+label+'</b><small>'+hint+'</small></div><div class="step">'+
+   '<button class="sb" data-act="sim-dec" data-f="'+f+'" aria-label="Diminuir: '+label+'">−</button>'+
+   '<input class="snum" id="sim-'+f+'" inputmode="decimal" autocomplete="off" data-f="'+f+'" value="'+fmt(val)+'" aria-label="'+label+'">'+
+   '<button class="sb" data-act="sim-inc" data-f="'+f+'" aria-label="Aumentar: '+label+'">+</button></div></div>';
+}
+function simView(){
+  var per=curPeriod(),sim=UI.sim;
+  var h='<div style="padding-top:6px"><h2>Simulador</h2><p class="note" style="margin-top:4px">'+esc(per.name)+' · não altera as suas notas</p></div>';
+  if(!per.modules.length)return h+'<div class="card flat"><p class="note">Crie um módulo na aba Módulos para poder simular.</p></div>';
+  var m=pickMod(sim.mid),c=calc(m);
+  h+=modChips('sim-mod',m.id);
+  var pend=allItems(m).filter(function(it){return it.v==null});
+  if(!pend.length){
+    return h+'<section class="card stack"><div class="label">Todas as notas lançadas</div><div class="row" style="align-items:flex-end;gap:8px"><span class="hero-num tn">'+fmt(c.P,2)+'</span><span class="hero-sub">/ 10</span></div>'+
+      '<span class="tag '+c.status+'" style="align-self:flex-start">'+ST[c.status]+'</span><p class="note">Este módulo não tem mais avaliações para simular.</p></section>';
+  }
+  var it=pend[0];pend.forEach(function(p){if(p.k===sim.k)it=p});
+  var assume=sim.assume!=null?sim.assume:MIN;
+  var x=sim.x!=null?sim.x:MIN;
+  function needFor(item){
+    var others=round2(c.R-item.w);
+    var n=(MIN-c.P-others*assume/10)/item.w*10;
+    var max=round2(c.P+others*assume/10+item.w);
+    var o={others:others,max:max};
+    if(n<=0.0001){o.cls='ok';o.tag='Garantido';o.big='0';o.val=0}
+    else if(n>10.0001){o.cls='bad';o.tag='Fora de alcance';o.big='>10';o.val=null}
+    else{var nd=Math.ceil(n*10-1e-6)/10;o.val=nd;o.big=fmt(nd,1);o.cls=nd>MIN?'risk':'track';o.tag=nd>MIN?'Acima da média':'Alcançável'}
+    return o;
+  }
+  var nf=needFor(it);
+  var rest=nf.others>0?' Considerando <b class="tn">'+fmt(assume)+'</b> nas outras avaliações que faltam.':'';
+  var expl;
+  if(nf.cls==='ok')expl='Com as notas que você já tem'+(nf.others>0?' e '+fmt(assume)+' nas outras que faltam':'')+', a média '+MIN+' já está garantida. Qualquer nota em <b>'+esc(it.label)+'</b> serve.';
+  else if(nf.cls==='bad')expl='Mesmo com 10 em <b>'+esc(it.label)+'</b>, a nota final chega só a <b class="tn">'+fmt(nf.max,2)+'</b>.'+rest;
+  else expl='Você precisa de <b class="tn">'+nf.big+'</b> em <b>'+esc(it.label)+'</b> para fechar a média '+MIN+'.'+rest;
+
+  h+='<section class="card stack"><h3>Quanto preciso tirar</h3>'+
+   '<div class="rowscroll" role="group" aria-label="Escolher a avaliação">'+pend.map(function(p){
+      return '<button class="chip'+(p.k===it.k?' on':'')+'" data-act="sim-item" data-k="'+p.k+'" aria-pressed="'+(p.k===it.k)+'">'+esc(p.label)+'</button>';
+   }).join('')+'</div>'+
+   '<div class="row" style="align-items:flex-end;gap:12px;flex-wrap:wrap"><span class="need-big tn">'+nf.big+'</span><span class="tag '+nf.cls+'" style="margin-bottom:6px">'+nf.tag+'</span></div>'+
+   '<p class="note">'+expl+'</p>'+
+   (pend.length>1?'<div class="blk">'+simField('Nota nas outras que faltam','suposição para as demais avaliações','assume',assume)+'</div>':'')+
+   '</section>';
+
+  var total=round2(c.P+nf.others*assume/10+it.w*x/10);
+  var okc=total>=MIN;
+  h+='<section class="card stack"><h3>E se eu tirar…</h3>'+
+   '<div class="blk">'+simField('Nota nesta avaliação',esc(it.label),'x',x)+'</div>'+
+   '<div class="row between"><div><div class="label">Nota do módulo</div><div class="row" style="align-items:flex-end;gap:6px"><span class="hero-num tn" style="font-size:60px">'+fmt(total,2)+'</span><span class="hero-sub">/ 10</span></div></div>'+
+   '<span class="tag '+(okc?'ok':'bad')+'">'+(okc?'Passa':'Não passa')+'</span></div>'+
+   '<p class="note">'+(nf.others>0?'Com '+fmt(x)+' em '+esc(it.label)+' e '+fmt(assume)+' nas outras que faltam.':'Com '+fmt(x)+' em '+esc(it.label)+'.')+' Média mínima '+MIN+'.</p></section>';
+
+  if(pend.length>1){
+    h+='<section class="card flat stack"><h3>Nota necessária em cada uma</h3><p class="note">Se as outras que faltam ficarem em '+fmt(assume)+'. Toque para simular a avaliação.</p><div>'+pend.map(function(p){
+      var q=needFor(p);
+      return '<button class="irow" data-act="sim-item" data-k="'+p.k+'" aria-label="Simular '+esc(p.label)+'"><span>'+esc(p.label)+'</span><span class="iv"><b class="tn">'+q.big+'</b><span class="tag '+q.cls+'">'+q.tag+'</span></span></button>';
+    }).join('')+'</div></section>';
+  }
+  return h;
+}
+
+/* ---------- evolução ---------- */
+var CROWN='M0 9 L2 2 L5.5 6 L8 0 L10.5 6 L14 2 L16 9 Z';
+function trunc(t,n){t=String(t);return t.length>n?t.slice(0,n-1)+'…':t}
+function evoBars(mods){
+  var n=mods.length,rowH=56,top=4,Wd=320,H=top+n*rowH+26;
+  var rec=-1,best=0;
+  mods.forEach(function(m,i){var c=calc(m);if(c.P>best){best=c.P;rec=i}});
+  var o='<svg class="chart" viewBox="0 0 '+Wd+' '+H+'" role="img" aria-label="Pontos obtidos por módulo, de 0 a 10, com a média mínima '+MIN+' marcada">';
+  mods.forEach(function(m,i){
+    var c=calc(m),y=top+i*rowH,id='cp'+i;
+    var tw=c.tP/10*Wd,lw=c.lP/10*Wd,pw=c.R/10*Wd;
+    var cls=c.status==='none'?'track2':(c.status==='track'?'tut':c.status);
+    var vt=fmt(c.P,2);
+    o+='<text class="sv-n" x="0" y="'+(y+14)+'">'+esc(trunc(m.name,24))+'</text>';
+    o+='<text class="sv-v sv-'+(c.status==='none'?'track2':(c.status==='track'?'risk':c.status))+'" x="'+Wd+'" y="'+(y+16)+'" text-anchor="end">'+vt+'</text>';
+    if(i===rec)o+='<g transform="translate('+(Wd-vt.length*10.5-24)+','+(y+5)+')"><path class="sv-crown" d="'+CROWN+'"/></g>';
+    o+='<clipPath id="'+id+'"><rect x="0" y="'+(y+24)+'" width="'+Wd+'" height="18" rx="9"/></clipPath>';
+    o+='<g clip-path="url(#'+id+')"><rect class="sv-track" x="0" y="'+(y+24)+'" width="'+Wd+'" height="18"/>'+
+       '<rect class="sv-pot" x="'+(tw+lw)+'" y="'+(y+24)+'" width="'+pw+'" height="18"/>'+
+       '<rect class="sv-tut" x="0" y="'+(y+24)+'" width="'+tw+'" height="18"/>'+
+       '<rect class="sv-lmf" x="'+tw+'" y="'+(y+24)+'" width="'+lw+'" height="18"/></g>';
+  });
+  var mx=MIN/10*Wd;
+  o+='<line class="sv-min" x1="'+mx+'" y1="'+(top+18)+'" x2="'+mx+'" y2="'+(H-22)+'"/>';
+  o+='<text class="sv-m" x="0" y="'+(H-6)+'">0</text><text class="sv-m" x="'+mx+'" y="'+(H-6)+'" text-anchor="middle">mín. '+MIN+'</text><text class="sv-m" x="'+Wd+'" y="'+(H-6)+'" text-anchor="end">10</text>';
+  return o+'</svg>';
+}
+function evoLines(m){
+  var tn=m.tut.form,ln=m.lmf.form,n=Math.max(tn.length,ln.length);
+  var Wd=320,Hd=214,L=26,R=8,T=44,B=30,pw=Wd-L-R,ph=Hd-T-B;
+  function xs(i){return L+pw*(i+.5)/n}
+  function ys(v){return T+ph*(1-v/10)}
+  var all=[];
+  for(var i=0;i<n;i++){
+    if(tn[i]!=null)all.push({i:i,v:tn[i],s:'tut'});
+    if(ln[i]!=null)all.push({i:i,v:ln[i],s:'lmf'});
+  }
+  var o='<svg class="chart" viewBox="0 0 '+Wd+' '+Hd+'" role="img" aria-label="Notas das formativas de Tutoria e LMF, de 0 a 10">';
+  [0,5,10].forEach(function(v){
+    o+='<line class="sv-grid" x1="'+L+'" y1="'+ys(v)+'" x2="'+(Wd-R)+'" y2="'+ys(v)+'"/><text class="sv-m" x="'+(L-6)+'" y="'+(ys(v)+4)+'" text-anchor="end">'+v+'</text>';
+  });
+  o+='<line class="sv-min" x1="'+L+'" y1="'+ys(MIN)+'" x2="'+(Wd-R)+'" y2="'+ys(MIN)+'"/><text class="sv-n" x="'+(L-6)+'" y="'+(ys(MIN)+4)+'" text-anchor="end">'+MIN+'</text>';
+  for(var k=0;k<n;k++)o+='<text class="sv-m" x="'+xs(k)+'" y="'+(Hd-8)+'" text-anchor="middle">F'+(k+1)+'</text>';
+  function path(arr){
+    var d='',pen=false;
+    arr.forEach(function(v,i){if(v==null){pen=false;return}d+=(pen?'L':'M')+xs(i)+' '+ys(v)+' ';pen=true});
+    return d;
+  }
+  o+='<path class="sv-ltut" d="'+path(tn)+'"/><path class="sv-llmf" d="'+path(ln)+'"/>';
+  var rec=null;all.forEach(function(p){if(!rec||p.v>rec.v)rec=p});
+  function above(p){
+    var a=tn[p.i],b=ln[p.i];
+    if(a==null||b==null)return true;
+    if(a===b)return p.s==='tut';
+    return p.s==='tut'?a>b:b>a;
+  }
+  all.forEach(function(p){
+    var x=xs(p.i),y=ys(p.v),up=above(p);
+    o+='<circle class="sv-d'+p.s+'" cx="'+x+'" cy="'+y+'" r="5"/>';
+    o+='<text class="t-'+p.s+'" x="'+x+'" y="'+(up?y-10:y+19)+'" text-anchor="middle">'+fmt(p.v)+'</text>';
+    if(rec&&p===rec)o+='<g transform="translate('+(x-8)+','+((up?y-10:y-10)-28)+')"><path class="sv-crown" d="'+CROWN+'"/></g>';
+  });
+  return o+'</svg>';
+}
+function evoView(){
+  var per=curPeriod();
+  var h='<div style="padding-top:6px"><h2>Evolução</h2><p class="note" style="margin-top:4px">'+esc(per.name)+'</p></div>';
+  if(!per.modules.length)return h+'<div class="card flat"><p class="note">Crie um módulo na aba Módulos para ver os gráficos.</p></div>';
+  var any=per.modules.some(function(m){return calc(m).Wf>0});
+  var cr=crOf(per.modules),allm=[];S.periods.forEach(function(p){allm=allm.concat(p.modules)});var cra=crOf(allm);
+  h+='<section class="card stack"><div class="row between"><div class="label">CR · coeficiente de rendimento</div><span class="tag '+(cr.partial?'track':'ok')+'">'+(cr.partial?'Parcial':'Final')+'</span></div>'+
+    '<div class="row" style="align-items:flex-end;gap:8px"><span class="hero-num tn">'+(cr.cr==null?'—':fmt(cr.cr,2))+'</span><span class="hero-sub">/ 10</span></div>'+
+    '<div class="bar '+(cr.cr!=null&&cr.cr>=MIN?'ok':'risk')+'"><i class="got" style="width:'+(cr.cr==null?0:Math.min(100,cr.cr*10))+'%"></i><span class="mark"></span></div>'+
+    '<div class="bar-cap tn"><span>0</span><span>mínimo '+MIN+'</span><span>10</span></div>'+
+    (S.periods.length>1?'<div class="row between"><span class="note">CR acumulado, todos os períodos</span><b class="tn" style="font:800 22px var(--display)">'+(cra.cr==null?'—':fmt(cra.cr,2))+'</b></div>':'')+
+    '<p class="note">Média das notas dos módulos, ponderada pelo peso de cada um (padrão 1, igual para todos). Se a sua faculdade usa a carga horária, ajuste o peso em Módulos, Editar plano. Módulos sem notas ficam de fora.</p></section>';
+  h+='<section class="card stack"><h3>Pontos por módulo</h3>'+
+    '<div class="row" style="gap:14px;flex-wrap:wrap"><span class="lg"><i class="sq" style="background:var(--t-home)"></i>Tutoria</span><span class="lg"><i class="sq" style="background:var(--t-mod)"></i>LMF</span><span class="lg"><i class="sq" style="background:var(--line)"></i>Ainda possível</span><span class="lg"><svg width="16" height="10" viewBox="0 0 16 9" aria-hidden="true"><path fill="var(--crown)" d="'+CROWN+'"/></svg>Melhor módulo</span></div>'+
+    evoBars(per.modules)+
+    (any?'':'<p class="note">Lance as primeiras notas na aba Módulos para preencher o gráfico.</p>')+'</section>';
+  var m=pickMod(UI.evoMod),c=calc(m);
+  h+=modChips('evo-mod',m.id);
+  var hasF=m.tut.form.concat(m.lmf.form).some(function(v){return v!=null});
+  h+='<section class="card stack"><h3>Formativas</h3>'+
+    '<div class="row" style="gap:14px;flex-wrap:wrap"><span class="lg"><i style="background:var(--t-home)"></i>Tutoria</span><span class="lg"><i style="background:var(--t-mod)"></i>LMF</span><span class="lg"><svg width="16" height="10" viewBox="0 0 16 9" aria-hidden="true"><path fill="var(--crown)" d="'+CROWN+'"/></svg>Maior nota</span></div>'+
+    evoLines(m)+(hasF?'':'<p class="note">Nenhuma formativa lançada neste módulo ainda.</p>')+
+    '<div class="tiles">'+
+    '<div class="tile"><span class="label">Prova de Tutoria</span><b class="tn">'+(m.tut.prova==null?'—':fmt(m.tut.prova,1))+'</b><span class="note">'+(m.tut.prova==null?'vale '+fmt(W.tp)+' pts':fmt(round2(m.tut.prova/10*W.tp))+' de '+fmt(W.tp)+' pts')+'</span></div>'+
+    '<div class="tile"><span class="label">Prova de LMF</span><b class="tn">'+(m.lmf.prova==null?'—':fmt(m.lmf.prova,1))+'</b><span class="note">'+(m.lmf.prova==null?'vale '+fmt(W.lp)+' pts':fmt(round2(m.lmf.prova/10*W.lp))+' de '+fmt(W.lp)+' pts')+'</span></div>'+
+    '<div class="tile"><span class="label">Média formativas Tutoria</span><b class="tn">'+(avg(m.tut.form)==null?'—':fmt(avg(m.tut.form),2))+'</b></div>'+
+    '<div class="tile"><span class="label">Média formativas LMF</span><b class="tn">'+(avg(m.lmf.form)==null?'—':fmt(avg(m.lmf.form),2))+'</b></div></div></section>';
+  return h;
+}
+
+function evtView(){
+  return '<div style="padding-top:6px"><h2>Eventos</h2><p class="note" style="margin-top:4px">O que vem pela frente além das provas</p></div>'+
+   '<section class="card stack" style="align-items:center;text-align:center;padding:30px 18px"><div style="width:56px;height:56px;color:var(--accent-ink)">'+IC.cal.replace('<svg','<svg width="56" height="56"')+'</div>'+
+   '<span class="need-big" style="font-size:60px;text-transform:uppercase">Em breve</span>'+
+   '<p class="note" style="max-width:34ch">Aqui vão aparecer todos os eventos futuros, para você não perder nenhum.</p>'+
+   '<div class="row" style="flex-wrap:wrap;justify-content:center;gap:8px">'+['Extensões','Jornadas','Aulas extras','Provas de liga','Esportes'].map(function(t){return '<span class="tag none">'+t+'</span>'}).join('')+'</div></section>';
+}
+function crOf(mods){
+  var num=0,den=0,part=false;
+  mods.forEach(function(m){var c=calc(m);if(c.Wf>0){var w=chOf(m);num+=c.parcial*w;den+=w;if(!c.done)part=true}else part=true});
+  return den>0?{cr:num/den,partial:part}:{cr:null,partial:true};
+}
 function modName(id){var n='Módulo removido';S.periods.forEach(function(p){p.modules.forEach(function(m){if(m.id===id)n=m.name})});return n}
 
 function render(){
@@ -470,8 +741,9 @@ function render(){
   var html='';
   if(UI.tab==='home')html=viewHome();
   else if(UI.tab==='mod')html=viewMod();
-  else if(UI.tab==='sim')html=viewSoon('Simulador',['Chega na próxima fase.','Aqui você vai ver quanto precisa tirar na próxima avaliação para fechar média '+MIN+' em cada módulo, e testar um "e se eu tirar X?".'],'sim');
-  else html=viewSoon('Evolução',['Chega em uma fase seguinte.','Gráficos da média de cada módulo ao longo das avaliações, com o recorde destacado.'],'evo');
+  else if(UI.tab==='sim')html=simView();
+  else if(UI.tab==='evt')html=evtView();
+  else html=evoView();
   app.innerHTML=html;
   var nav=document.getElementById('nav');
   nav.innerHTML=TABS.map(function(t){return '<button class="tab" role="tab" data-t="'+t[0]+'" aria-selected="'+(UI.tab===t[0])+'">'+IC[t[0]]+'<span>'+t[1]+'</span></button>'}).join('');
@@ -486,7 +758,7 @@ function bindCar(){
     var ds=dots.children;for(var j=0;j<ds.length;j++)ds[j].className=j===best?'on':'';
   },{passive:true});
 }
-function paintFoot(){var el=document.getElementById('foot-mode');if(el)el.textContent=store.mode==='cloud'?'Salvo na sua conta.':'Salvo só neste aparelho.'}
+function paintFoot(){var el=document.getElementById('foot-mode');if(el){var c=store.mode==='cloud';el.textContent=c?'Salvo na sua conta':'Salvo só neste aparelho';el.className='tag '+(c?'ok':'risk')}}
 
 /* ---------- modais (bottom-sheet) ---------- */
 function openSheet(html,onReady){
@@ -494,7 +766,7 @@ function openSheet(html,onReady){
   var layer=document.getElementById('layer');
   layer.innerHTML='<div class="scrim" id="scrim"><div class="sheet" role="dialog" aria-modal="true" aria-label="Janela">'+html+'</div></div>';
   var sh=layer.querySelector('.sheet');
-  var first=sh.querySelector('input,select,textarea,button');if(first)first.focus({preventScroll:true});
+  sh.setAttribute('tabindex','-1');sh.style.outline='none';sh.focus({preventScroll:true});
   if(onReady)onReady(sh);
 }
 function closeSheet(){
@@ -525,14 +797,39 @@ function examSheet(id){
 }
 function profileSheet(){
   var th=document.documentElement.getAttribute('data-theme')||'auto';
-  openSheet('<h2>Perfil e dados</h2>'+
-   '<label class="field"><span>Seu nome</span><input class="inp" id="p-name" maxlength="30" value="'+esc(S.name)+'"></label>'+
-   '<div class="field"><span>Tema</span><div class="seg">'+
-    [['auto','Automático'],['light','Claro'],['dark','Escuro']].map(function(t){return '<button class="chip'+(th===t[0]?' on':'')+'" data-act="theme" data-v="'+t[0]+'">'+t[1]+'</button>'}).join('')+'</div></div>'+
-   '<div class="field"><span>Períodos</span><div class="seg"><button class="btn" data-act="period-new">Novo período</button>'+(S.periods.length>1?'<button class="btn" data-act="period-cur">Marcar este como atual</button>':'')+'</div></div>'+
-   '<div class="field"><span>Dados</span><div class="seg"><button class="btn" data-act="backup">Backup dos dados</button><button class="btn" data-act="restore">Restaurar dados</button></div>'+
-   '<p class="note" id="foot-mode">'+(store.mode==='cloud'?'Salvo na sua conta.':'Salvo só neste aparelho.')+'</p></div>'+
-   '<div class="row" style="gap:8px"><button class="btn pri" style="flex:1" data-act="profile-save">Salvar</button><button class="btn" data-act="close">Fechar</button></div>');
+  var svg=function(d){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+d+'</svg>'};
+  var I={
+    auto:svg('<circle cx="12" cy="12" r="8"/><path d="M12 4v16" /><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/>'),
+    light:svg('<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/>'),
+    dark:svg('<path d="M20 14.5A8 8 0 1 1 9.5 4 6.5 6.5 0 0 0 20 14.5z"/>'),
+    x:svg('<path d="M6 6l12 12M18 6L6 18"/>'),
+    plus:svg('<path d="M12 5v14M5 12h14"/>'),
+    flag:svg('<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>'),
+    down:svg('<path d="M12 4v11M7 11l5 5 5-5M5 20h14"/>'),
+    up:svg('<path d="M12 20V9M7 13l5-5 5 5M5 4h14"/>')
+  };
+  var seg=[['auto','Auto'],['light','Claro'],['dark','Escuro']].map(function(t){
+    return '<button data-act="theme" data-v="'+t[0]+'" aria-pressed="'+(th===t[0])+'">'+I[t[0]]+'<span>'+t[1]+'</span></button>';
+  }).join('');
+  var per=S.periods.map(function(p){
+    return '<div class="grow"><span>'+esc(p.name)+'</span>'+(p.id===S.currentId?'<span class="tag ok">Atual</span>':'')+'</div>';
+  }).join('');
+  var cloud=store.mode==='cloud';
+  openSheet('<div class="grab"></div>'+
+   '<div class="sh-head"><h2>Perfil e dados</h2><button class="x-btn" data-act="close" aria-label="Fechar">'+I.x+'</button></div>'+
+   '<div class="prof"><span class="avatar-lg" id="p-av" aria-hidden="true">'+esc((S.name||'?').trim().charAt(0))+'</span>'+
+     '<label class="field" style="flex:1;min-width:0"><span>Seu nome</span><input class="inp" id="p-name" maxlength="30" autocomplete="off" value="'+esc(S.name)+'"></label></div>'+
+   '<div class="psec"><span class="label">Aparência</span><div class="segc" role="group" aria-label="Tema">'+seg+'</div></div>'+
+   '<div class="psec"><span class="label">Períodos</span><div class="group">'+per+
+     '<button class="rowbtn" data-act="period-new"><span class="ri">'+I.plus+'</span><span class="rt"><b>Novo período</b><small>Começa sem módulos</small></span></button>'+
+     (curPeriod().id!==S.currentId?'<button class="rowbtn" data-act="period-cur"><span class="ri">'+I.flag+'</span><span class="rt"><b>Marcar '+esc(curPeriod().name)+' como atual</b></span></button>':'')+
+   '</div></div>'+
+   '<div class="psec"><span class="label">Dados</span><div class="group">'+
+     '<button class="rowbtn" data-act="backup"><span class="ri">'+I.down+'</span><span class="rt"><b>Backup dos dados</b><small>Guarda uma cópia das suas notas</small></span></button>'+
+     '<button class="rowbtn" data-act="restore"><span class="ri">'+I.up+'</span><span class="rt"><b>Restaurar dados</b><small>Volta a partir de uma cópia</small></span></button>'+
+     '<div class="grow"><span class="tag '+(cloud?'ok':'risk')+'" id="foot-mode">'+(cloud?'Salvo na sua conta':'Salvo só neste aparelho')+'</span></div>'+
+   '</div></div>'+
+   '<button class="btn pri wide" data-act="profile-save">Concluir</button>');
 }
 function periodSheet(){
   openSheet('<h2>Novo período</h2><label class="field"><span>Nome</span><input class="inp" id="n-name" maxlength="30" value="'+(S.periods.length+1)+'º período"></label>'+
@@ -581,9 +878,18 @@ document.addEventListener('click',function(ev){
   else if(a==='today'){S.cur=Math.max(0,S.periods.findIndex(function(p){return p.id===S.currentId}));commit()}
   else if(a==='profile')profileSheet();
   else if(a==='close')closeSheet();
-  else if(a==='toggle'){var m=t.getAttribute('data-m');UI.open[m]=UI.open[m]===undefined?false:!UI.open[m];render()}
+  else if(a==='toggle'){var m=t.getAttribute('data-m');UI.open[m]=!UI.open[m];render()}
   else if(a==='goto-mod'){var id=t.getAttribute('data-m');UI.open[id]=true;UI.tab='mod';render();var el=document.getElementById('m-'+id);if(el)el.scrollIntoView({block:'start'})}
   else if(a==='edit'){UI.edit=!UI.edit;render()}
+  else if(a==='sim-mod'){UI.sim={mid:t.getAttribute('data-m'),k:null,assume:null,x:null};render()}
+  else if(a==='sim-item'){UI.sim.k=t.getAttribute('data-k');UI.sim.x=null;render();window.scrollTo(0,0)}
+  else if(a==='sim-inc'||a==='sim-dec'){
+    var sf=t.getAttribute('data-f'),sv=parseNum(document.getElementById('sim-'+sf).value);
+    if(sv==null)sv=MIN;
+    sv=Math.min(10,Math.max(0,Math.round((sv+(a==='sim-inc'?.5:-.5))*100)/100));
+    UI.sim[sf]=sv;render();
+  }
+  else if(a==='evo-mod'){UI.evoMod=t.getAttribute('data-m');render()}
   else if(a==='inc'||a==='dec'){
     var r=getRef(t.getAttribute('data-p'));if(!r)return;
     var v=r.o[r.k];
@@ -616,7 +922,7 @@ document.addEventListener('click',function(ev){
     store.save(S);closeSheet();toast('Avaliação marcada');
   }
   else if(a==='exam-del'){var id4=t.getAttribute('data-id');S.exams=S.exams.filter(function(x){return x.id!==id4});store.save(S);closeSheet()}
-  else if(a==='theme'){setTheme(t.getAttribute('data-v'));profileSheet()}
+  else if(a==='theme'){var tv=t.getAttribute('data-v');setTheme(tv);document.querySelectorAll('.segc button').forEach(function(b){b.setAttribute('aria-pressed',String(b.getAttribute('data-v')===tv))})}
   else if(a==='profile-save'){var n=document.getElementById('p-name').value.trim();if(n)S.name=n;store.save(S);closeSheet()}
   else if(a==='period-new')periodSheet();
   else if(a==='period-save'){
@@ -642,7 +948,7 @@ document.addEventListener('click',function(ev){
   else if(a==='restore')restoreSheet();
   else if(a==='restore-go'){
     var txt=document.getElementById('r-text').value.trim(),err=document.getElementById('r-err');
-    try{var o=JSON.parse(txt);if(!validState(o))throw 0;
+    try{var o=JSON.parse(txt);if(!validState(o))throw 0;o=migrate(o);
       o.cur=Math.min(Math.max(+o.cur||0,0),o.periods.length-1);if(!o.currentId)o.currentId=o.periods[0].id;if(!Array.isArray(o.exams))o.exams=[];if(!o.name)o.name=S.name;
       S=o;store.save(S);closeSheet();toast('Dados restaurados');
     }catch(e){err.textContent='Esse texto não parece um backup do Calcula Nota.'}
@@ -650,20 +956,33 @@ document.addEventListener('click',function(ev){
 });
 document.addEventListener('change',function(ev){
   var el=ev.target;
-  if(el.classList&&el.classList.contains('num')){
+  if(el.classList&&el.classList.contains('snum')){
+    var sf2=el.getAttribute('data-f'),sv2=parseNum(el.value);
+    if(sv2==null){toast('Digite uma nota de 0 a 10');render();return}
+    UI.sim[sf2]=sv2;render();
+  }else if(el.classList&&el.classList.contains('num')){
     var r=getRef(el.getAttribute('data-p'));if(!r)return;
     var v=parseNum(el.value);
     if(v===undefined){el.value=r.o[r.k]==null?'':fmt(r.o[r.k]);toast('Digite uma nota de 0 a 10');return}
     r.o[r.k]=v;commit();
+  }else if(el.id==='p-name'){
+    var nn=el.value.trim();if(nn){S.name=nn;store.save(S)}
+  }else if(el.hasAttribute&&el.hasAttribute('data-ch')){
+    var idc=el.getAttribute('data-ch'),pv=parseFloat(String(el.value).replace(',','.'));
+    curPeriod().modules.forEach(function(m){if(m.id===idc){if(pv>0&&pv<=9999)m.ch=pv;el.value=fmt(chOf(m))}});
+    store.save(S);render();
   }else if(el.hasAttribute&&el.hasAttribute('data-name')){
     var id=el.getAttribute('data-name');
     curPeriod().modules.forEach(function(m){if(m.id===id)m.name=el.value.trim()||m.name});
     store.save(S);
   }
 });
+document.addEventListener('input',function(ev){
+  if(ev.target.id==='p-name'){var av=document.getElementById('p-av');if(av)av.textContent=(ev.target.value.trim().charAt(0)||'?')}
+});
 document.addEventListener('keydown',function(ev){
   if(ev.key==='Escape'&&document.getElementById('scrim'))closeSheet();
-  if(ev.key==='Enter'&&ev.target.classList&&ev.target.classList.contains('num'))ev.target.blur();
+  if(ev.key==='Enter'&&ev.target.classList&&(ev.target.classList.contains('num')||ev.target.classList.contains('snum')))ev.target.blur();
   if(ev.key==='Tab'){
     var sh=document.querySelector('.sheet');if(!sh)return;
     var f=sh.querySelectorAll('button,input,select,textarea,[href]');if(!f.length)return;
@@ -679,6 +998,7 @@ render();
 store.initCloud(function(remote){
   var local=S;
   if(remote&&validState(remote)){
+    remote=migrate(remote);
     if((remote.t||0)>=(local.t||0)){S=remote;store.writeLocal(S);render()}
     else store.save(local);
   }else if(local.t){store.save(local)}
