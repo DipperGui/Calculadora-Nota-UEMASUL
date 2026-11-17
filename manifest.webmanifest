@@ -1,0 +1,14 @@
+{
+  "name": "Calcula Nota",
+  "short_name": "Calcula Nota",
+  "lang": "pt-BR",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0A1017",
+  "theme_color": "#0A1017",
+  "icons": [
+    { "src": "icon.png", "sizes": "1024x1024", "type": "image/png", "purpose": "any" }
+  ]
+}
