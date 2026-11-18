@@ -14,3 +14,7 @@ O código já aponta para `icon.png` em dois lugares:
 3. Abra o link no Safari do iPhone > Compartilhar > Adicionar à Tela de Início.
 
 Se o ícone não mudar, apague o app da tela inicial e adicione de novo (o iOS guarda o ícone antigo).
+
+## Eventos (planilha do Google)
+A aba Eventos lê a planilha publicada na web como CSV. O link fica no `index.html`, na constante `EVENTS_URL`. Se trocar de planilha, troque só esse link.
+Colunas: `id, data, hora, titulo, tipo, local, descricao, link, status` (status: confirmado, à confirmar ou cancelado). A cor de cada tipo é automática.
