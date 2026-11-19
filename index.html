@@ -28,7 +28,7 @@
   --t-sim:#FF8A1F;  --t-sim-ink:#A84B00;  --t-sim-soft:rgba(255,138,31,.16);  --t-sim-glow:rgba(255,138,31,.30);
   --t-evo:#0FBF38;  --t-evo-ink:#08802A;  --t-evo-soft:rgba(15,191,56,.14);   --t-evo-glow:rgba(15,191,56,.26);
   --t-evt:#0A8F9C; --t-evt-ink:#066A75; --t-evt-soft:rgba(10,143,156,.14); --t-evt-glow:rgba(10,143,156,.28);
-  --ev-s:75%; --ev-lc:46%; --ev-li:27%; --ev-ss:80%; --ev-ls:92%;
+  --ev-on:#FFFFFF; --ev-s:75%; --ev-lc:46%; --ev-li:27%; --ev-ss:80%; --ev-ls:92%;
   --accent:var(--t-home); --accent-ink:var(--t-home-ink); --accent-soft:var(--t-home-soft); --glow:var(--t-home-glow);
   --crown:#F5B800; --on-accent:#FFFFFF;
   --display:'Big Shoulders Display','Arial Narrow',Impact,sans-serif;
@@ -48,7 +48,7 @@
     --t-sim:#FF8A1F;  --t-sim-ink:#FFB066;  --t-sim-soft:rgba(255,138,31,.18);  --t-sim-glow:rgba(255,138,31,.34);
     --t-evo:#39FF14;  --t-evo-ink:#6BFF4F;  --t-evo-soft:rgba(57,255,20,.14);   --t-evo-glow:rgba(57,255,20,.28);
     --t-evt:#2EE6E0; --t-evt-ink:#8FF3EF; --t-evt-soft:rgba(46,230,224,.16); --t-evt-glow:rgba(46,230,224,.30);
-  --ev-s:85%; --ev-lc:62%; --ev-li:78%; --ev-ss:45%; --ev-ls:22%;
+  --ev-on:#07131C; --ev-s:85%; --ev-lc:62%; --ev-li:78%; --ev-ss:45%; --ev-ls:22%;
     --on-accent:#0A1017; color-scheme:dark;
   }
 }
@@ -64,7 +64,7 @@
   --t-sim:#FF8A1F;  --t-sim-ink:#FFB066;  --t-sim-soft:rgba(255,138,31,.18);  --t-sim-glow:rgba(255,138,31,.34);
   --t-evo:#39FF14;  --t-evo-ink:#6BFF4F;  --t-evo-soft:rgba(57,255,20,.14);   --t-evo-glow:rgba(57,255,20,.28);
     --t-evt:#2EE6E0; --t-evt-ink:#8FF3EF; --t-evt-soft:rgba(46,230,224,.16); --t-evt-glow:rgba(46,230,224,.30);
-  --ev-s:85%; --ev-lc:62%; --ev-li:78%; --ev-ss:45%; --ev-ls:22%;
+  --ev-on:#07131C; --ev-s:85%; --ev-lc:62%; --ev-li:78%; --ev-ss:45%; --ev-ls:22%;
   --on-accent:#0A1017; color-scheme:dark;
 }
 html{background:var(--bg)}
@@ -404,6 +404,39 @@ body[data-tab="evt"] .cd.today{color:#06242A}
 .wknow::before{content:"";position:absolute;left:-1px;top:-3px;width:8px;height:8px;border-radius:50%;background:var(--bad)}
 .wkhint{font-size:12.5px;color:var(--muted);text-align:center}
 
+/* v3: cabeçalho compacto, ícones, filtros, calendário preenchido */
+.evtop{padding-top:2px;align-items:center}
+.evh{font:800 30px/.9 var(--display)}
+.evupd{display:block;font:600 11.5px/1 var(--text);color:var(--muted);margin-top:5px}
+.evbar{display:flex;align-items:center;gap:8px}
+.vsw{display:flex;gap:2px;background:var(--surface2);padding:3px;border-radius:999px}
+.vsw button{width:46px;height:40px;border:0;border-radius:999px;background:none;color:var(--muted);display:grid;place-items:center;padding:0}
+.vsw button svg{width:22px;height:22px}
+.vsw button[aria-pressed="true"]{background:var(--surface);color:var(--accent-ink);box-shadow:0 2px 8px -2px rgba(0,0,0,.3)}
+.fbtn{min-height:46px;gap:8px;margin-left:auto;padding:0 14px}
+.fbtn.on{background:var(--accent-soft);color:var(--accent-ink);border-color:var(--accent)}
+.vsw+.fbtn+.fbtn{margin-left:0}
+.fcount{font:800 12px/1 var(--text);font-style:normal;min-width:20px;height:20px;border-radius:999px;display:grid;place-items:center;background:var(--accent);color:#06242A;padding:0 5px}
+.fpanel{display:grid;gap:10px;animation:drop .2s ease-out}
+@keyframes drop{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+.fchips{display:flex;flex-wrap:wrap;gap:8px}
+.monhero{align-items:center;flex-wrap:nowrap}
+.monname{font:800 26px/.9 var(--display);text-transform:uppercase;letter-spacing:.01em;white-space:nowrap;min-width:0}
+.monname span{font:700 10.5px var(--text);letter-spacing:.12em;color:var(--muted);vertical-align:middle;margin-left:2px}
+.monhero .chip{min-width:0}
+.calcard{padding:12px 10px 10px}
+.cd{border:0;background:var(--surface2);color:var(--ink)}
+.cd.has{background:var(--fill);color:var(--ev-on);text-shadow:0 1px 2px rgba(0,0,0,.28);border:0}
+.cd.today{background:var(--surface2);color:var(--ink);text-shadow:none;box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--accent-ink)}
+body[data-tab="evt"] .cd.today{color:var(--ink)}
+body[data-tab="evt"] .cd.today.has{color:var(--ev-on)}
+.cd.today.has{background:var(--fill);color:var(--ev-on);text-shadow:0 1px 2px rgba(0,0,0,.28)}
+.cd[aria-pressed="true"]{box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--ink)}
+.anim-l{animation:slideL .26s ease-out}.anim-r{animation:slideR .26s ease-out}
+@keyframes slideL{from{transform:translateX(36px);opacity:0}to{transform:none;opacity:1}}
+@keyframes slideR{from{transform:translateX(-36px);opacity:0}to{transform:none;opacity:1}}
+.wkscroll{height:min(76vh,760px)}
+
 /* modal */
 .scrim{position:fixed;inset:0;z-index:40;background:rgba(5,10,16,.55);display:flex;align-items:flex-end;justify-content:center}
 .sheet{width:100%;max-width:520px;max-height:88vh;overflow-y:auto;background:var(--surface);border:1px solid var(--line);border-bottom:0;
@@ -532,7 +565,7 @@ var store={
 var S=store.readLocal();
 if(!S||!S.periods||!S.periods.length)S=defaultState();
 var _mig=S.mig;S=migrate(S);if(_mig!==S.mig)store.writeLocal(S);
-var UI={tab:'home',evView:'month',evType:null,evMonth:null,evWeek:null,evSel:null,evWk:null,evFav:false,evPast:false,edit:false,open:{},toast:'',lastFocus:null};
+var UI={tab:'home',evView:'month',evTypes:{},evFo:false,evAnim:null,evMonth:null,evWeek:null,evSel:null,evWk:null,evFav:false,evPast:false,edit:false,open:{},toast:'',lastFocus:null};
 var TAB_COLOR={home:'home',mod:'mod',sim:'sim',evo:'evo'};
 
 function curPeriod(){return S.periods[Math.min(Math.max(S.cur,0),S.periods.length-1)]}
@@ -953,6 +986,7 @@ function parseTimes(s){
   var parts=String(s||'').split(/\s*(?:-|–|—)\s*|\s+(?:às|as|a)\s+/i);
   return [parseTime(parts[0]),parts.length>1?parseTime(parts[1]):''];
 }
+function parseDates(s){var m=String(s||'').match(/\d{1,2}\/\d{1,2}\/\d{2,4}|\d{4}-\d{1,2}-\d{1,2}/g)||[];return [m[0]?parseDate(m[0]):null,m[1]?parseDate(m[1]):null]}
 function parseStatus(s){
   var k=norm(s);
   if(k==='confirmado')return 'ok';
@@ -964,19 +998,21 @@ function parseEvents(txt){
   var rows=parseCSV(txt);if(!rows.length)return null;
   var head=rows[0].map(function(h){return norm(h).replace(/ /g,'_')});
   var ix=function(){for(var a=0;a<arguments.length;a++){var p=head.indexOf(arguments[a]);if(p>=0)return p}return -1};
-  var cD=ix('data'),cT=ix('titulo','evento','nome'),cH=ix('hora','horario','hora_inicio','horario_inicio','inicio','hora_de_inicio','hora_inicial','comeco'),cK=ix('tipo'),cL=ix('local'),cX=ix('descricao','detalhes'),cN=ix('link'),cS=ix('status'),cI=ix('id'),cF=ix('hora_fim','fim','termino','hora_termino','horario_fim','horario_termino','hora_final','hora_de_fim','hora_de_termino','final');
+  var cD=ix('data','data_inicio','data_inicial','data_de_inicio','inicio_data'),cT=ix('titulo','evento','nome'),cH=ix('hora','horario','hora_inicio','horario_inicio','inicio','hora_de_inicio','hora_inicial','comeco'),cK=ix('tipo'),cL=ix('local'),cX=ix('descricao','detalhes'),cN=ix('link'),cS=ix('status'),cI=ix('id'),cF=ix('hora_fim','fim','termino','hora_termino','horario_fim','horario_termino','hora_final','hora_de_fim','hora_de_termino','final');
   var isEnd=/fim|termino|final/;
-  if(cH<0)cH=head.findIndex(function(x){return /inicio|^hora|^horario/.test(x)&&!isEnd.test(x)});
-  if(cF<0)cF=head.findIndex(function(x){return isEnd.test(x)&&x!==head[cT]&&x!==head[cD]});
+  if(cH<0)cH=head.findIndex(function(x){return /inicio|^hora|^horario/.test(x)&&!isEnd.test(x)&&!/data/.test(x)});
+  if(cF<0)cF=head.findIndex(function(x){return isEnd.test(x)&&!/data/.test(x)});
+  var cDF=ix('data_fim','data_final','data_termino','data_de_fim','data_de_termino','fim_data','data_ate','ate');
+  if(cDF<0)cDF=head.findIndex(function(x){return /data/.test(x)&&isEnd.test(x)});
   if(cD<0||cT<0)return null;
   var get=function(r,c){return c>=0&&r[c]!=null?String(r[c]).trim():''};
   var out=[];
   rows.slice(1).forEach(function(r){
-    var d=parseDate(get(r,cD)),title=get(r,cT),tt=parseTimes(get(r,cH));
+    var dd=parseDates(get(r,cD)),d=dd[0],de=parseDate(get(r,cDF))||dd[1],title=get(r,cT),tt=parseTimes(get(r,cH));
     if(!d||!title)return;
     var ty=typeInfo(get(r,cK)),link=get(r,cN);
     if(!/^https?:\/\//i.test(link))link='';
-    out.push({id:get(r,cI)||(d+'|'+norm(title)),date:d,time:tt[0],end:tt[1]||parseTime(get(r,cF)),title:title,type:ty.name,hue:ty.hue,
+    out.push({id:get(r,cI)||(d+'|'+norm(title)),date:d,dateEnd:(de&&de>d?de:''),time:tt[0],end:tt[1]||parseTime(get(r,cF)),title:title,type:ty.name,hue:ty.hue,
       place:get(r,cL),desc:get(r,cX),link:link,st:parseStatus(get(r,cS))});
   });
   out.sort(function(a,b){return a.date<b.date?-1:a.date>b.date?1:a.time<b.time?-1:a.time>b.time?1:a.title<b.title?-1:a.title>b.title?1:0});
@@ -993,7 +1029,7 @@ function dayLabel(key){
   var base=WDAYS[d.getDay()]+', '+d.getDate()+' '+MONTHS[d.getMonth()];
   return diff===0?['Hoje',base]:diff===1?['Amanhã',base]:[base,''];
 }
-function evWhen(e){var p=dayLabel(e.date);return (p[0]+(p[1]?' ('+p[1]+')':''))+(e.time?' · '+fmtT(e.time)+(e.end?' às '+fmtT(e.end):''):'')}
+function evWhen(e){var p=dayLabel(e.date);return (p[0]+(p[1]?' ('+p[1]+')':''))+(e.dateEnd?' até '+dayLabel(e.dateEnd)[0]+(dayLabel(e.dateEnd)[1]?' ('+dayLabel(e.dateEnd)[1]+')':''):'')+(e.time?' · '+fmtT(e.time)+(e.end?' às '+fmtT(e.end):''):'')}
 var ST_EV={ok:'Confirmado',tbc:'A confirmar',cx:'Cancelado'};
 var STAR='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9 6.8 19.7l1-5.9L3.5 9.7l5.9-.8z"/></svg>';
 var REFRESH='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg>';
@@ -1004,7 +1040,7 @@ function evCard(e,compact){
    (compact?'':'<span class="evdate"><span class="evmo">'+MONTHS[d.getMonth()]+'</span><b>'+d.getDate()+'</b></span>')+
    '<button class="evmain" data-act="ev-open" data-id="'+esc(e.id)+'">'+
     '<span class="evt">'+esc(e.title)+'</span>'+(e.place?'<span class="evloc">'+esc(e.place)+'</span>':'')+
-    '<span class="evmeta">'+(rel&&!compact?'<span class="evrel">'+rel+'</span>':'')+(e.st?'<span class="dot '+e.st+'" role="img" aria-label="'+ST_EV[e.st]+'"></span>':'')+'<span class="evhr">'+evTime(e)+'</span><span class="evtag">'+esc(e.type)+'</span></span>'+
+    '<span class="evmeta">'+(rel&&!compact?'<span class="evrel">'+rel+'</span>':'')+(e.st?'<span class="dot '+e.st+'" role="img" aria-label="'+ST_EV[e.st]+'"></span>':'')+'<span class="evhr">'+evTime(e)+(e.dateEnd?' · até '+keyDate(e.dateEnd).getDate()+' '+MONTHS[keyDate(e.dateEnd).getMonth()]:'')+'</span><span class="evtag">'+esc(e.type)+'</span></span>'+
    '</button>'+
    '<button class="evstar" data-act="ev-fav" data-id="'+esc(e.id)+'" aria-pressed="'+fav+'" aria-label="Favoritar">'+STAR+'</button></article>';
 }
@@ -1012,28 +1048,61 @@ var MONTHS_L=['janeiro','fevereiro','março','abril','maio','junho','julho','ago
 function keyOf(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
 function keyDate(k){var p=k.split('-');return new Date(+p[0],+p[1]-1,+p[2])}
 function addDays(d,n){return new Date(d.getFullYear(),d.getMonth(),d.getDate()+n)}
-function byDay(list){var m={};list.forEach(function(e){(m[e.date]=m[e.date]||[]).push(e)});return m}
-function navBtns(act,n0){
-  return '<div class="row" style="gap:6px"><button class="chip" style="padding:0;width:44px" data-act="'+act+'" data-n="-1" aria-label="Anterior">‹</button>'+
-   '<button class="chip" style="min-height:44px" data-act="'+act+'" data-n="0">'+n0+'</button>'+
-   '<button class="chip" style="padding:0;width:44px" data-act="'+act+'" data-n="1" aria-label="Próximo">›</button></div>';
+function eachDay(e,fn){
+  var d=keyDate(e.date),end=e.dateEnd||e.date,n=0;
+  while(n<62){var k=keyOf(addDays(d,n));fn(k);if(k>=end)break;n++}
 }
+function byDay(list){var m={};list.forEach(function(e){eachDay(e,function(k){(m[k]=m[k]||[]).push(e)})});return m}
+var ICV={
+ month:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M8 3v4M16 3v4"/></svg>',
+ week:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9.3 4v16M14.7 4v16M4 9h16"/></svg>',
+ list:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 6h14M5 10h14M5 14h14M5 18h14"/></svg>'
+};
+function bindSwipe(el,cb){
+  var x0=0,y0=0;
+  el.addEventListener('touchstart',function(e){var t=e.touches[0];x0=t.clientX;y0=t.clientY},{passive:true});
+  el.addEventListener('touchend',function(e){var t=e.changedTouches[0],dx=t.clientX-x0,dy=t.clientY-y0;if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.5)cb(dx<0?1:-1)},{passive:true});
+}
+function navMonth(n){
+  var now=new Date();
+  if(!UI.evMonth)UI.evMonth={y:now.getFullYear(),m:now.getMonth()};
+  if(n===0)UI.evMonth={y:now.getFullYear(),m:now.getMonth()};
+  else{var md=new Date(UI.evMonth.y,UI.evMonth.m+n,1);UI.evMonth={y:md.getFullYear(),m:md.getMonth()}}
+  UI.evSel=null;UI.evAnim=n>0?'l':n<0?'r':null;render();
+}
+function navWeek(n,keepY){
+  var now=new Date(),y=UI.evWk?UI.evWk.y:0;
+  UI.evWeek=n===0?keyOf(addDays(now,-now.getDay())):keyOf(addDays(keyDate(UI.evWeek||keyOf(addDays(now,-now.getDay()))),7*n));
+  UI.evWk=keepY?{x:n<0?99999:0,y:y}:null;
+  UI.evAnim=n>0?'l':n<0?'r':null;render();
+}
+function navBtns(act,n0){
+  return '<div class="row" style="gap:6px"><button class="chip" style="padding:0;width:36px;min-height:38px" data-act="'+act+'" data-n="-1" aria-label="Anterior">‹</button>'+
+   '<button class="chip" style="min-height:38px;padding:0 12px" data-act="'+act+'" data-n="0">'+n0+'</button>'+
+   '<button class="chip" style="padding:0;width:36px;min-height:38px" data-act="'+act+'" data-n="1" aria-label="Próximo">›</button></div>';
+}
+function cellFill(evs){
+  var cs=evs.slice(0,4).map(function(e){var c=e.hue<0?'var(--muted)':'hsl('+e.hue+' var(--ev-s) var(--ev-lc))';return e.st==='cx'?'color-mix(in srgb,'+c+' 38%,var(--surface))':c});
+  if(cs.length===1)return cs[0];
+  var n=cs.length;
+  return 'linear-gradient(115deg,'+cs.map(function(c,i){return c+' '+(i*100/n)+'% '+((i+1)*100/n)+'%'}).join(',')+')';
+}
+function animCls(){var a=UI.evAnim;UI.evAnim=null;return a?' anim-'+a:''}
 function evMonth(list){
   var tk=todayKey(),now=new Date();
   if(!UI.evMonth)UI.evMonth={y:now.getFullYear(),m:now.getMonth()};
   var y=UI.evMonth.y,mo=UI.evMonth.m,map=byDay(list);
   var nd=new Date(y,mo+1,0).getDate(),lead=new Date(y,mo,1).getDay(),prefix=y+'-'+pad(mo+1)+'-';
   var sel=UI.evSel&&UI.evSel.indexOf(prefix)===0?UI.evSel:null;
-  var inMonth=list.filter(function(e){return e.date.indexOf(prefix)===0});
-  var h='<div class="monhero"><div><span class="monyr">'+y+'</span><h3 class="monname">'+MONTHS_L[mo]+'</h3></div>'+navBtns('ev-mnav','Hoje')+'</div>';
-  h+='<section class="card calcard"><div class="cal">'+WDAYS.map(function(w){return '<div class="wd">'+w.charAt(0)+'</div>'}).join('');
+  var inMonth=list.filter(function(e){return e.date<=prefix+pad(nd)&&(e.dateEnd||e.date)>=prefix+'01'});
+  var h='<div id="calc" style="display:flex;flex-direction:column;gap:14px"><div class="monhero"><h3 class="monname">'+MONTHS_L[mo]+' <span>'+y+'</span></h3>'+navBtns('ev-mnav','Hoje')+'</div>';
+  h+='<section class="card calcard'+animCls()+'"><div class="cal">'+WDAYS.map(function(w){return '<div class="wd">'+w.charAt(0)+'</div>'}).join('');
   for(var i=0;i<lead;i++)h+='<div class="cd blank"></div>';
   for(var d=1;d<=nd;d++){
     var k=prefix+pad(d),evs=map[k]||[];
-    var dots=evs.slice(0,3).map(function(e){return '<i class="evk'+(e.hue<0?' ev-gray':'')+(e.st==='cx'?' cx':'')+'" style="--h:'+Math.max(e.hue,0)+'"></i>'}).join('')+(evs.length>3?'<em>+</em>':'');
-    h+='<button class="cd'+(k===tk?' today':'')+(evs.length?' has':'')+'" data-act="ev-day" data-d="'+k+'" aria-pressed="'+(k===sel)+'" aria-label="'+d+' de '+MONTHS_L[mo]+(evs.length?', '+evs.length+' evento'+(evs.length>1?'s':''):'')+'">'+d+'<span class="cdots">'+dots+'</span></button>';
+    h+='<button class="cd'+(k===tk?' today':'')+(evs.length?' has':'')+'"'+(evs.length?' style="--fill:'+cellFill(evs)+'"':'')+' data-act="ev-day" data-d="'+k+'" aria-pressed="'+(k===sel)+'" aria-label="'+d+' de '+MONTHS_L[mo]+(evs.length?', '+evs.length+' evento'+(evs.length>1?'s':''):'')+'">'+d+'</button>';
   }
-  h+='</div></section>';
+  h+='</div></section></div>';
   var shown=sel?(map[sel]||[]):inMonth;
   if(sel){var dl=dayLabel(sel);h+='<div class="row between"><div class="evday" style="padding:0">'+dl[0]+(dl[1]?'<small>'+dl[1]+'</small>':'')+'</div><button class="chip" style="min-height:36px" data-act="ev-day" data-d="'+sel+'">Ver o mês todo</button></div>'}
   else h+='<div class="evday" style="padding-bottom:0">Eventos do mês<small>'+inMonth.length+'</small></div>';
@@ -1055,12 +1124,12 @@ function evWeek(list){
   if(!UI.evWeek)UI.evWeek=keyOf(addDays(now,-now.getDay()));
   var s=keyDate(UI.evWeek),e=addDays(s,6),map=byDay(list);
   var rng=s.getDate()+(s.getMonth()!==e.getMonth()?' '+MONTHS[s.getMonth()]:'')+' – '+e.getDate()+' '+MONTHS[e.getMonth()];
-  var h='<div class="monhero"><div><span class="monyr">'+e.getFullYear()+'</span><h3 class="monname" style="font-size:36px">'+rng+'</h3></div>'+navBtns('ev-wnav','Hoje')+'</div>';
+  var h='<div class="monhero"><h3 class="monname">'+rng+' <span>'+e.getFullYear()+'</span></h3>'+navBtns('ev-wnav','Hoje')+'</div>';
   var heads='',cols='',minStart=null,todayIdx=-1;
   for(var i=0;i<7;i++){
     var d=addDays(s,i),k=keyOf(d),evs=map[k]||[],isT=k===tk;
     if(isT)todayIdx=i;
-    var allday=evs.filter(function(x){return !x.time}),timed=evs.filter(function(x){return x.time}).map(function(x){
+    var allday=evs.filter(function(x){return !x.time||x.dateEnd}),timed=evs.filter(function(x){return x.time&&!x.dateEnd}).map(function(x){
       var st=mins(x.time),en=x.end?mins(x.end):st+60;if(en<=st)en=st+60;if(en>1440)en=1440;
       if(minStart===null||st<minStart)minStart=st;
       return{ev:x,s:st,e:en}});
@@ -1076,12 +1145,13 @@ function evWeek(list){
   }
   var hrs='';for(var hr=0;hr<24;hr++)hrs+='<span style="top:'+(hr*HH)+'px">'+pad(hr)+':00</span>';
   var first=minStart!==null?minStart:(todayIdx>=0?Math.max(0,now.getHours()-1)*60:7*60);
-  h+='<div id="wk" class="wkscroll" style="--hh:'+HH+'px;--tw:'+TW+'px" data-first="'+first+'" data-today="'+todayIdx+'"><div class="wkgrid"><div class="wkcorner"></div>'+heads+'<div class="wktime">'+hrs+'</div>'+cols+'</div></div>';
-  h+='<p class="wkhint">Arraste para os lados para ver os outros dias e para cima ou para baixo para ver os horários.</p>';
+  h+='<div id="wk" class="wkscroll'+animCls()+'" style="--hh:'+HH+'px;--tw:'+TW+'px" data-first="'+first+'" data-today="'+todayIdx+'"><div class="wkgrid"><div class="wkcorner"></div>'+heads+'<div class="wktime">'+hrs+'</div>'+cols+'</div></div>';
+  h+='<p class="wkhint">Arraste para os lados. No limite da semana, arraste com mais força para mudar de semana.</p>';
   return h;
 }
 function bindWk(){
-  var sc=document.getElementById('wk');if(!sc)return;
+  var sc=document.getElementById('wk');
+  if(!sc)return;
   var cw=Math.max(60,(sc.clientWidth-TW)/3);
   sc.style.setProperty('--colw',cw+'px');
   var co=sc.querySelector('.wkcorner');if(co)sc.style.scrollPaddingTop=co.offsetHeight+'px';
@@ -1094,40 +1164,56 @@ function bindWk(){
     UI.evWk={x:sc.scrollLeft,y:sc.scrollTop};
   }
   sc.addEventListener('scroll',function(){UI.evWk={x:sc.scrollLeft,y:sc.scrollTop}},{passive:true});
+  var tx=0,ty=0,sl0=0,mx0=0;
+  sc.addEventListener('touchstart',function(e){var t=e.touches[0];tx=t.clientX;ty=t.clientY;sl0=sc.scrollLeft;mx0=sc.scrollWidth-sc.clientWidth},{passive:true});
+  sc.addEventListener('touchend',function(e){
+    var t=e.changedTouches[0],dx=t.clientX-tx,dy=t.clientY-ty;
+    if(Math.abs(dx)<70||Math.abs(dx)<Math.abs(dy)*2)return;
+    if(dx>0&&sl0<=2&&sc.scrollLeft<=2)navWeek(-1,true);
+    else if(dx<0&&sl0>=mx0-2&&sc.scrollLeft>=mx0-2)navWeek(1,true);
+  },{passive:true});
 }
-function evTypeBar(){
+function bindEvSwipe(){var c=document.getElementById('calc');if(c)bindSwipe(c,function(d){navMonth(d)})}
+function evTypes(){
   var seen={},ts=[];(EV.list||[]).forEach(function(e){if(!seen[e.type]){seen[e.type]=1;ts.push({n:e.type,h:e.hue})}});
-  if(ts.length<2)return '';
   ts.sort(function(a,b){var ia=EV_TYPES.findIndex(function(t){return t[0]===a.n}),ib=EV_TYPES.findIndex(function(t){return t[0]===b.n});return (ia<0?99:ia)-(ib<0?99:ib)});
-  return '<div class="rowscroll"><button class="chip tchip" data-act="ev-type" data-v="" aria-pressed="'+!UI.evType+'">Todos os tipos</button>'+ts.map(function(t){
-    return '<button class="chip tchip" data-act="ev-type" data-v="'+esc(t.n)+'" aria-pressed="'+(UI.evType===t.n)+'"><span class="dotc evk'+(t.h<0?' ev-gray':'')+'" style="--h:'+Math.max(t.h,0)+'"></span>'+esc(t.n)+'</button>'}).join('')+'</div>';
+  return ts;
+}
+function evFilterCount(){return (UI.evFav?1:0)+Object.keys(UI.evTypes||{}).length}
+function evFilterPanel(){
+  var n=evFilterCount();
+  return '<section class="card flat fpanel"><div class="label">Mostrar</div><div class="fchips"><button class="chip tchip" data-act="ev-ffav" aria-pressed="'+!!UI.evFav+'">★ Favoritos</button></div>'+
+   '<div class="label">Tipos de evento</div><div class="fchips">'+evTypes().map(function(t){
+     return '<button class="chip tchip" data-act="ev-ftype" data-v="'+esc(t.n)+'" aria-pressed="'+!!(UI.evTypes&&UI.evTypes[t.n])+'"><span class="dotc evk'+(t.h<0?' ev-gray':'')+'" style="--h:'+Math.max(t.h,0)+'"></span>'+esc(t.n)+'</button>'}).join('')+'</div>'+
+   '<div class="row between"><span class="note">'+(n?n+' filtro'+(n>1?'s':'')+' ativo'+(n>1?'s':''):'Sem filtros: mostrando tudo')+'</span><button class="btn" style="min-height:40px" data-act="ev-fclear" '+(n?'':'disabled')+'>Limpar filtros</button></div></section>';
 }
 function evtView(){
-  var vw=UI.evView||'month',now=new Date();
-  var h='<div class="evtop"><div><h2 class="evh">Eventos<span>.</span></h2><p class="note" style="margin-top:8px">O que vem pela frente além das provas</p></div><span class="evbig">'+MONTHS[now.getMonth()]+' '+now.getFullYear()+'</span></div>';
+  var vw=UI.evView||'month';
   var upd=EV.t?'Atualizado às '+pad(new Date(EV.t).getHours())+':'+pad(new Date(EV.t).getMinutes()):'Ainda não carregado';
-  h+='<div class="evsync"><span class="note">'+upd+'</span><button class="btn'+(EV.loading?' ev-spin':'')+'" data-act="ev-refresh" '+(EV.loading?'disabled':'')+'>'+REFRESH+'<span>'+(EV.loading?'Atualizando':'Atualizar')+'</span></button></div>';
+  var h='<div class="evtop"><div><h2 class="evh">Eventos<span>.</span></h2><span class="evupd">'+upd+'</span></div>'+
+   '<button class="x-btn'+(EV.loading?' ev-spin':'')+'" data-act="ev-refresh" aria-label="Atualizar eventos" '+(EV.loading?'disabled':'')+'>'+REFRESH+'</button></div>';
   if(EV.err){
     var inPrev=!!(window.claude&&window.claude.use);
     h+='<div class="evbanner" role="status">'+(inPrev?'Esta prévia não acessa a planilha. Abra o app pelo link do GitHub para ver os eventos.':(EV.list?'Sem conexão. Mostrando a lista das '+pad(new Date(EV.t).getHours())+':'+pad(new Date(EV.t).getMinutes())+'.':'Não consegui carregar os eventos. Confira a conexão e toque em Atualizar.'))+'</div>';
   }
-  h+='<div class="segc">'+[['month','Mês'],['week','Semana'],['list','Lista']].map(function(v){return '<button data-act="ev-view" data-v="'+v[0]+'" aria-pressed="'+(vw===v[0])+'">'+v[1]+'</button>'}).join('')+'</div>';
-  var on='background:var(--accent-soft);color:var(--accent-ink);border-color:var(--accent)';
-  h+='<div class="row" style="gap:8px;flex-wrap:wrap"><div class="seg"><button class="chip" data-act="ev-fv" data-v="0" aria-pressed="'+!UI.evFav+'" style="'+(!UI.evFav?on:'')+'">Todos</button><button class="chip" data-act="ev-fv" data-v="1" aria-pressed="'+!!UI.evFav+'" style="'+(UI.evFav?on:'')+'">★ Favoritos</button></div>'+
-   (vw==='list'?'<button class="chip" data-act="ev-past" aria-pressed="'+!!UI.evPast+'" style="margin-left:auto;'+(UI.evPast?on:'')+'">Passados</button>':'')+'</div>';
+  var nf=evFilterCount(),names={month:'Mês',week:'Semana',list:'Lista'};
+  h+='<div class="evbar"><div class="vsw" role="group" aria-label="Visualização">'+['month','week','list'].map(function(v){return '<button data-act="ev-view" data-v="'+v+'" aria-pressed="'+(vw===v)+'" aria-label="'+names[v]+'" title="'+names[v]+'">'+ICV[v]+'</button>'}).join('')+'</div>'+
+   '<button class="chip fbtn'+(nf?' on':'')+'" data-act="ev-fopen" aria-expanded="'+!!UI.evFo+'"><span>Filtros</span>'+(nf?'<em class="fcount">'+nf+'</em>':'')+'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="transition:transform .2s;'+(UI.evFo?'transform:rotate(180deg)':'')+'"><path d="M6 9l6 6 6-6"/></svg></button>'+
+   (vw==='list'?'<button class="chip fbtn'+(UI.evPast?' on':'')+'" data-act="ev-past" aria-pressed="'+!!UI.evPast+'">Passados</button>':'')+'</div>';
   if(!EV.list){
-    if(!EV.err)h+='<section class="card" style="text-align:center"><p class="note">'+(EV.loading?'Carregando eventos…':'Toque em Atualizar para carregar os eventos.')+'</p></section>';
+    if(!EV.err)h+='<section class="card" style="text-align:center"><p class="note">'+(EV.loading?'Carregando eventos…':'Toque no botão de recarregar para carregar os eventos.')+'</p></section>';
     return h;
   }
-  h+=evTypeBar();
-  var pred=function(e){return (!UI.evFav||(S.fav&&S.fav[e.id]))&&(!UI.evType||e.type===UI.evType)};
+  if(UI.evFo)h+=evFilterPanel();
+  var tys=UI.evTypes||{},hasT=Object.keys(tys).length>0;
+  var pred=function(e){return (!UI.evFav||(S.fav&&S.fav[e.id]))&&(!hasT||tys[e.type])};
   var all=EV.list.filter(pred);
   if(vw==='month')return h+evMonth(all);
   if(vw==='week')return h+evWeek(all);
   var tk=todayKey();
-  var list=all.filter(function(e){return UI.evPast?e.date<tk:e.date>=tk});
+  var list=all.filter(function(e){var en=e.dateEnd||e.date;return UI.evPast?en<tk:en>=tk});
   if(UI.evPast)list=list.slice().reverse();
-  if(!list.length)return h+'<section class="card" style="text-align:center"><p class="note">'+(UI.evFav||UI.evType?'Nenhum evento com esses filtros.':(UI.evPast?'Nenhum evento passado na planilha.':'Nenhum evento futuro por enquanto.'))+'</p></section>';
+  if(!list.length)return h+'<section class="card" style="text-align:center"><p class="note">'+(nf?'Nenhum evento com esses filtros.':(UI.evPast?'Nenhum evento passado na planilha.':'Nenhum evento futuro por enquanto.'))+'</p></section>';
   return h+list.map(function(e){return evCard(e)}).join('');
 }
 function loadEvents(){
@@ -1185,6 +1271,7 @@ function render(){
   nav.innerHTML=TABS.map(function(t){return '<button class="tab" role="tab" data-t="'+t[0]+'" aria-selected="'+(UI.tab===t[0])+'">'+IC[t[0]]+'<span>'+t[1]+'</span></button>'}).join('');
   bindCar();
   bindWk();
+  bindEvSwipe();
 }
 function bindCar(){
   var car=document.getElementById('car'),dots=document.getElementById('dots');
@@ -1315,13 +1402,12 @@ document.addEventListener('click',function(ev){
   else if(a==='today'){S.cur=Math.max(0,S.periods.findIndex(function(p){return p.id===S.currentId}));commit()}
   else if(a==='ev-view'){UI.evView=t.getAttribute('data-v');UI.evWk=null;render()}
   else if(a==='ev-day'){var dd=t.getAttribute('data-d');UI.evSel=UI.evSel===dd?null:dd;render()}
-  else if(a==='ev-type'){UI.evType=t.getAttribute('data-v')||null;render()}
-  else if(a==='ev-mnav'){var nn=+t.getAttribute('data-n'),nw=new Date();
-    if(nn===0){UI.evMonth={y:nw.getFullYear(),m:nw.getMonth()};UI.evSel=null}
-    else{var md=new Date(UI.evMonth.y,UI.evMonth.m+nn,1);UI.evMonth={y:md.getFullYear(),m:md.getMonth()};UI.evSel=null}
-    render()}
-  else if(a==='ev-wnav'){var wn=+t.getAttribute('data-n'),wd=new Date();
-    UI.evWk=null;UI.evWeek=wn===0?keyOf(addDays(wd,-wd.getDay())):keyOf(addDays(keyDate(UI.evWeek),7*wn));render()}
+  else if(a==='ev-fopen'){UI.evFo=!UI.evFo;render()}
+  else if(a==='ev-ffav'){UI.evFav=!UI.evFav;render()}
+  else if(a==='ev-ftype'){var tn=t.getAttribute('data-v');if(!UI.evTypes)UI.evTypes={};if(UI.evTypes[tn])delete UI.evTypes[tn];else UI.evTypes[tn]=1;render()}
+  else if(a==='ev-fclear'){UI.evFav=false;UI.evTypes={};render()}
+  else if(a==='ev-mnav')navMonth(+t.getAttribute('data-n'));
+  else if(a==='ev-wnav')navWeek(+t.getAttribute('data-n'),false);
   else if(a==='ev-refresh')loadEvents();
   else if(a==='ev-fv'){UI.evFav=t.getAttribute('data-v')==='1';render()}
   else if(a==='ev-past'){UI.evPast=!UI.evPast;render()}
