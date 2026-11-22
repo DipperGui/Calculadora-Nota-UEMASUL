@@ -1191,7 +1191,7 @@ function evtView(){
   var vw=UI.evView||'month';
   var upd=EV.t?'Atualizado às '+pad(new Date(EV.t).getHours())+':'+pad(new Date(EV.t).getMinutes()):'Ainda não carregado';
   var h='<div class="evtop"><div><h2 class="evh">Eventos<span>.</span></h2><span class="evupd">'+upd+'</span></div>'+
-   '<button class="x-btn'+(EV.loading?' ev-spin':'')+'" data-act="ev-refresh" aria-label="Atualizar eventos" '+(EV.loading?'disabled':'')+'>'+REFRESH+'</button></div>';
+   '<div class="row" style="gap:8px"><button class="x-btn" data-act="ev-add" aria-label="Adicionar evento"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button><button class="x-btn'+(EV.loading?' ev-spin':'')+'" data-act="ev-refresh" aria-label="Atualizar eventos" '+(EV.loading?'disabled':'')+'>'+REFRESH+'</button></div></div>';
   if(EV.err){
     var inPrev=!!(window.claude&&window.claude.use);
     h+='<div class="evbanner" role="status">'+(inPrev?'Esta prévia não acessa a planilha. Abra o app pelo link do GitHub para ver os eventos.':(EV.list?'Sem conexão. Mostrando a lista das '+pad(new Date(EV.t).getHours())+':'+pad(new Date(EV.t).getMinutes())+'.':'Não consegui carregar os eventos. Confira a conexão e toque em Atualizar.'))+'</div>';
@@ -1215,6 +1215,62 @@ function evtView(){
   if(UI.evPast)list=list.slice().reverse();
   if(!list.length)return h+'<section class="card" style="text-align:center"><p class="note">'+(nf?'Nenhum evento com esses filtros.':(UI.evPast?'Nenhum evento passado na planilha.':'Nenhum evento futuro por enquanto.'))+'</p></section>';
   return h+list.map(function(e){return evCard(e)}).join('');
+}
+var ADD_URL='https://script.google.com/macros/s/AKfycbyPJLLTjysA4UTeDd4RPdM4OEQU_3RRh9yMizz1s95jGueynUfTDkiyFadgYsZFDjBe1Q/exec';
+var LS_ADM='calcnota:adm';
+function dmy(v){var m=String(v||'').match(/^(\d{4})-(\d{2})-(\d{2})$/);return m?m[3]+'/'+m[2]+'/'+m[1]:''}
+function evAddSheet(){
+  var saved='';try{saved=localStorage.getItem(LS_ADM)||''}catch(e){}
+  var opts=EV_TYPES.map(function(t){return '<option>'+esc(t[0])+'</option>'}).join('');
+  var f=function(id,label,input,flex){return '<label class="field" style="'+(flex?'flex:1;min-width:0':'')+'"><span>'+label+'</span>'+input+'</label>'};
+  openSheet('<div class="grab"></div><div class="sh-head"><h2>Novo evento</h2><button class="x-btn" data-act="close" aria-label="Fechar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>'+
+   f('a-title','Título','<input class="inp" id="a-title" maxlength="120" autocomplete="off" placeholder="Ex.: Palestra sobre cardiologia">')+
+   f('a-type','Tipo','<select class="inp" id="a-type">'+opts+'</select>')+
+   '<div class="row" style="gap:10px">'+f('a-date','Data','<input class="inp" id="a-date" type="date">',1)+f('a-dend','Data final (opcional)','<input class="inp" id="a-dend" type="date">',1)+'</div>'+
+   '<div class="row" style="gap:10px">'+f('a-t1','Início','<input class="inp" id="a-t1" type="time">',1)+f('a-t2','Fim','<input class="inp" id="a-t2" type="time">',1)+'</div>'+
+   f('a-place','Local','<input class="inp" id="a-place" maxlength="120" autocomplete="off">')+
+   f('a-desc','Descrição','<textarea class="inp" id="a-desc" maxlength="600" style="min-height:76px"></textarea>')+
+   f('a-link','Link (opcional)','<input class="inp" id="a-link" type="url" inputmode="url" autocomplete="off" placeholder="https://">')+
+   '<div class="psec"><span class="label">Envio</span>'+
+   f('a-code','Código de administrador','<input class="inp" id="a-code" type="password" autocomplete="off" value="'+esc(saved)+'" placeholder="Deixe vazio para enviar como sugestão">')+
+   '<p class="note">Com o código, o evento entra direto na agenda. Sem o código, ele vai como sugestão e o administrador decide se publica.</p>'+
+   f('a-status','Situação (só vale com o código)','<select class="inp" id="a-status"><option>à confirmar</option><option>confirmado</option><option>cancelado</option></select>')+
+   f('a-autor','Seu nome (aparece nas sugestões)','<input class="inp" id="a-autor" maxlength="40" autocomplete="off" value="'+esc(S.name||'')+'">')+
+   '<label class="row" style="gap:10px;font-size:14px"><input type="checkbox" id="a-rem" '+(saved?'checked':'')+'> Lembrar o código neste aparelho</label></div>'+
+   '<p class="evbanner" id="a-err" role="alert" hidden></p>'+
+   '<div class="row" style="gap:8px"><button class="btn pri" style="flex:1" id="a-send" data-act="ev-send">Enviar</button><button class="btn" data-act="close">Cancelar</button></div>');
+}
+function evSend(){
+  var g=function(id){var el=document.getElementById(id);return el?el.value.trim():''};
+  var err=document.getElementById('a-err'),btn=document.getElementById('a-send');
+  var bad=function(m){err.textContent=m;err.hidden=false;err.scrollIntoView({block:'nearest'})};
+  var title=g('a-title'),d1=g('a-date'),d2=g('a-dend'),t1=g('a-t1'),t2=g('a-t2'),link=g('a-link');
+  err.hidden=true;
+  if(!title)return bad('Digite o título do evento.');
+  if(!d1)return bad('Escolha a data.');
+  if(d2&&d2<d1)return bad('A data final precisa ser igual ou depois da data.');
+  if(t2&&!t1)return bad('Informe também o horário de início.');
+  if(t1&&t2&&t2<=t1&&(!d2||d2===d1))return bad('O horário de fim precisa ser depois do início.');
+  if(link&&!/^https?:\/\//i.test(link))return bad('O link precisa começar com http:// ou https://.');
+  var code=g('a-code');
+  var payload={titulo:title,tipo:g('a-type'),data:dmy(d1),data_fim:d2&&d2!==d1?dmy(d2):'',hora_inicio:t1,hora_fim:t2,local:g('a-place'),descricao:g('a-desc'),link:link,status:g('a-status'),autor:g('a-autor'),codigo:code};
+  btn.disabled=true;btn.textContent='Enviando…';
+  var ctl=typeof AbortController!=='undefined'?new AbortController():null,to=ctl?setTimeout(function(){ctl.abort()},25000):0;
+  var rem=document.getElementById('a-rem');var remember=rem&&rem.checked;
+  fetch(ADD_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload),signal:ctl?ctl.signal:undefined})
+  .then(function(r){return r.json()})
+  .then(function(res){
+    clearTimeout(to);
+    if(!res||!res.ok){btn.disabled=false;btn.textContent='Enviar';return bad((res&&res.erro)||'O envio não foi aceito.')}
+    try{if(code&&remember)localStorage.setItem(LS_ADM,code);else localStorage.removeItem(LS_ADM)}catch(e){}
+    closeSheet();
+    if(res.destino==='eventos'){toast('Evento adicionado. Pode levar alguns minutos para aparecer para todos.');setTimeout(loadEvents,5000)}
+    else toast('Sugestão enviada ao administrador.');
+  })
+  .catch(function(){
+    clearTimeout(to);btn.disabled=false;btn.textContent='Enviar';
+    bad(window.claude&&window.claude.use?'Esta prévia não acessa a planilha. Use o app pelo link do GitHub.':'Não consegui confirmar o envio. Atualize os eventos e confira se ele entrou antes de enviar de novo, para não duplicar.');
+  });
 }
 function loadEvents(){
   if(EV.loading)return;
@@ -1408,6 +1464,8 @@ document.addEventListener('click',function(ev){
   else if(a==='ev-fclear'){UI.evFav=false;UI.evTypes={};render()}
   else if(a==='ev-mnav')navMonth(+t.getAttribute('data-n'));
   else if(a==='ev-wnav')navWeek(+t.getAttribute('data-n'),false);
+  else if(a==='ev-add')evAddSheet();
+  else if(a==='ev-send')evSend();
   else if(a==='ev-refresh')loadEvents();
   else if(a==='ev-fv'){UI.evFav=t.getAttribute('data-v')==='1';render()}
   else if(a==='ev-past'){UI.evPast=!UI.evPast;render()}
