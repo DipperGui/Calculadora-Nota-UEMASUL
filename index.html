@@ -1583,6 +1583,8 @@ function examSheet(id){
    (e?'<button class="btn danger" data-act="exam-del" data-id="'+e.id+'">Excluir</button>':'')+
    '<button class="btn" data-act="close">Cancelar</button></div>');
 }
+/* Versão: maior = mudança grande; menor = recurso novo; último = correção/ajuste. Atualizar a cada entrega. */
+var APP_VERSION='1.4.1';
 function profileSheet(){
   var th=document.documentElement.getAttribute('data-theme')||'auto';
   var svg=function(d){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+d+'</svg>'};
@@ -1616,7 +1618,7 @@ function profileSheet(){
      '<button class="rowbtn" data-act="backup"><span class="ri">'+I.down+'</span><span class="rt"><b>Backup dos dados</b><small>Guarda uma cópia das suas notas</small></span></button>'+
      '<button class="rowbtn" data-act="restore"><span class="ri">'+I.up+'</span><span class="rt"><b>Restaurar dados</b><small>Volta a partir de uma cópia</small></span></button>'+
      '<div class="grow"><span class="tag '+(cloud?'ok':'risk')+'" id="foot-mode">'+(cloud?'Salvo na sua conta':'Salvo só neste aparelho')+'</span></div>'+
-   '</div></div>'+
+   '</div><p class="note" style="text-align:center;margin:2px 0 0">Versão '+APP_VERSION+'</p></div>'+
    '<button class="btn pri wide" data-act="profile-save">Concluir</button>');
 }
 function periodSheet(){
