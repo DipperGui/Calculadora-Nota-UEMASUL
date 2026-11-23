@@ -80,7 +80,7 @@ body{
   padding-block:10px 0; min-height:100%;
 }
 body::before{
-  content:""; position:fixed; inset:0 0 calc(-1*var(--vgap,0px)) 0; z-index:-1; pointer-events:none;
+  content:""; position:fixed; inset:-80px 0 calc(-80px - var(--vgap,0px)) 0; z-index:-1; pointer-events:none;
   background:
     radial-gradient(90% 40% at 50% 118%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 70%),
     radial-gradient(circle, var(--dot) 1.3px, transparent 1.7px) 0 0/16px 16px;
@@ -89,7 +89,7 @@ body::before{
 button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer}
 :focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
-.app{max-width:520px;margin-inline:auto;display:flex;flex-direction:column;gap:14px;padding-bottom:108px}
+.app{min-height:calc(100vh + 2px);max-width:520px;margin-inline:auto;display:flex;flex-direction:column;gap:14px;padding-bottom:108px}
 .num-font,.big{font-family:var(--display);text-transform:uppercase;letter-spacing:.01em}
 .tn{font-variant-numeric:tabular-nums}
 h1,h2,h3,p{margin:0}
@@ -1219,7 +1219,7 @@ function bindWk(){
   if(app)app.style.paddingBottom=sc?'0':'';
   if(!sc)return;
   if(window.scrollY>0)window.scrollTo(0,0);
-  fitWeek(sc);
+  fitWeek(sc);requestAnimationFrame(function(){fitWeek(sc)});setTimeout(function(){fitWeek(sc)},150);setTimeout(function(){fitWeek(sc)},600);
   var cw=Math.max(60,(sc.clientWidth-TW)/3);
   sc.style.setProperty('--colw',cw+'px');
   var co=sc.querySelector('.wkcorner');if(co)sc.style.scrollPaddingTop=co.offsetHeight+'px';
@@ -1589,7 +1589,7 @@ function examSheet(id){
    '<button class="btn" data-act="close">Cancelar</button></div>');
 }
 /* Versão: maior = mudança grande; menor = recurso novo; último = correção/ajuste. Atualizar a cada entrega. */
-var APP_VERSION='1.4.2';
+var APP_VERSION='1.4.3';
 function profileSheet(){
   var th=document.documentElement.getAttribute('data-theme')||'auto';
   var svg=function(d){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+d+'</svg>'};
