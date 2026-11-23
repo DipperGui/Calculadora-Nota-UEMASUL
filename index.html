@@ -67,7 +67,7 @@
   --ev-on:#07131C; --ev-s:85%; --ev-lc:62%; --ev-li:78%; --ev-ss:45%; --ev-ls:22%;
   --on-accent:#0A1017; color-scheme:dark;
 }
-html{background:var(--bg)}
+html{background:radial-gradient(circle,var(--dot) 1.3px,transparent 1.7px) 0 0/16px 16px,var(--bg)}
 body[data-tab="home"]{--accent:var(--t-home);--accent-ink:var(--t-home-ink);--accent-soft:var(--t-home-soft);--glow:var(--t-home-glow)}
 body[data-tab="mod"]{--accent:var(--t-mod);--accent-ink:var(--t-mod-ink);--accent-soft:var(--t-mod-soft);--glow:var(--t-mod-glow)}
 body[data-tab="sim"]{--accent:var(--t-sim);--accent-ink:var(--t-sim-ink);--accent-soft:var(--t-sim-soft);--glow:var(--t-sim-glow)}
@@ -82,8 +82,7 @@ body{
 body::before{
   content:""; position:fixed; inset:-80px 0 calc(-80px - var(--vgap,0px)) 0; z-index:-1; pointer-events:none;
   background:
-    radial-gradient(90% 40% at 50% 118%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 70%),
-    radial-gradient(circle, var(--dot) 1.3px, transparent 1.7px) 0 0/16px 16px;
+    radial-gradient(90% 40% at 50% 118%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 70%);
   transition:background .4s;
 }
 button,input,select,textarea{font:inherit;color:inherit}
@@ -1589,7 +1588,7 @@ function examSheet(id){
    '<button class="btn" data-act="close">Cancelar</button></div>');
 }
 /* Versão: maior = mudança grande; menor = recurso novo; último = correção/ajuste. Atualizar a cada entrega. */
-var APP_VERSION='1.4.3';
+var APP_VERSION='1.4.4';
 function profileSheet(){
   var th=document.documentElement.getAttribute('data-theme')||'auto';
   var svg=function(d){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+d+'</svg>'};
